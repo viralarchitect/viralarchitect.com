@@ -1,0 +1,13 @@
+# Vercel
+.vercel/
+
+# Dependencies (defensive; project is dependency-free)
+node_modules/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+*.swp
