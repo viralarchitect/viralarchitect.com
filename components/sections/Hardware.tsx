@@ -3,6 +3,7 @@
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import {
+  AccentBusStatus,
   AccentControl,
   ChromaticPreview,
   CommandKeys,
@@ -37,10 +38,17 @@ export function Hardware() {
           <div className="hw-group">
             <span className="label">SWITCH BANK</span>
             <div className="hw-row switches">
-              <AccentControl />
-              <GridControl />
-              <ScanControl />
+              <div className="switch-slot">
+                <AccentControl />
+              </div>
+              <div className="switch-slot">
+                <GridControl />
+              </div>
+              <div className="switch-slot">
+                <ScanControl />
+              </div>
             </div>
+            <AccentBusStatus />
           </div>
 
           <div className="hw-group hw-group-wide">

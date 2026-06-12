@@ -642,12 +642,17 @@ h3 {
 .hw-head {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin-bottom: 18px;
   padding-bottom: 10px;
   border-bottom: 1px dashed rgba(var(--accent-rgb), 0.3);
+  min-height: 62px;
+}
+.hw-head .hexline {
+  flex: 1;
+  min-width: 0;
 }
 .hw-grid {
   display: grid;
@@ -682,17 +687,40 @@ h3 {
   flex-wrap: wrap;
 }
 .hw-row.switches {
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  align-items: start;
+  justify-items: center;
 }
-.switch-cluster {
+.switch-slot {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  justify-content: center;
+  width: 100%;
+  min-height: 148px;
 }
-.switch-cluster .lcd {
+.switch-slot .switch-unit {
+  width: 86px;
+}
+@media (max-width: 420px) {
+  .hw-row.switches {
+    grid-template-columns: 1fr;
+  }
+  .switch-slot {
+    min-height: 0;
+  }
+}
+.switch-bus-lcd {
+  display: block;
+  width: fit-content;
+  margin: 14px auto 0;
   font-size: 10px;
-  min-width: 0;
+  text-align: center;
+}
+.switch-bus-lcd.caution {
+  color: var(--amber);
+  border-color: rgba(var(--amber-rgb), 0.45);
+  text-shadow: 0 0 6px rgba(var(--amber-rgb), 0.6);
 }
 .hw-row.dials {
   justify-content: center;
@@ -748,11 +776,12 @@ h3 {
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  min-width: 96px;
+  width: 120px;
+  flex-shrink: 0;
 }
 .reset-btn {
   position: relative;
-  width: 88px;
+  width: 100%;
   height: 44px;
   border: none;
   border-radius: 6px;
@@ -776,6 +805,20 @@ h3 {
   border-radius: 4px;
   pointer-events: none;
   transition: border-color var(--snap) linear;
+}
+.reset-led {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 2;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.reset-led.nominal {
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(var(--accent-rgb), 0.85);
 }
 .reset-face {
   position: relative;
@@ -823,8 +866,12 @@ h3 {
 .reset-unit .label {
   font-size: 8px;
   text-align: center;
-  max-width: 120px;
-  line-height: 1.5;
+  width: 100%;
+  height: 12px;
+  line-height: 12px;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* control strip: slim hardware bar embedded in a section */

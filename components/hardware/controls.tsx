@@ -21,21 +21,30 @@ export function AccentControl() {
   const amber = accent === "amber";
 
   return (
-    <div className="switch-cluster">
-      <ToggleSwitch
-        id="tgl-accent"
-        caption={"TGL-01\nACCENT MODE"}
-        legendOn="AMBER"
-        legendOff="GREEN"
-        ariaLabel="Console accent mode: green or amber"
-        checked={amber}
-        onChange={(next) => {
-          setAccent(next ? "amber" : "green");
-          log("TGL-01", `ACCENT BUS → ${next ? "AMBER / CAUTION" : "GREEN / NOMINAL"}`);
-        }}
-      />
-      <span className="lcd">{amber ? "BUS: CAUTION" : "BUS: NOMINAL"}</span>
-    </div>
+    <ToggleSwitch
+      id="tgl-accent"
+      caption={"TGL-01\nACCENT MODE"}
+      legendOn="AMBER"
+      legendOff="GREEN"
+      ariaLabel="Console accent mode: green or amber"
+      checked={amber}
+      onChange={(next) => {
+        setAccent(next ? "amber" : "green");
+        log("TGL-01", `ACCENT BUS → ${next ? "AMBER / CAUTION" : "GREEN / NOMINAL"}`);
+      }}
+    />
+  );
+}
+
+/** Accent bus status readout — rendered below the switch bank row. */
+export function AccentBusStatus() {
+  const { accent } = useConsole();
+  const amber = accent === "amber";
+
+  return (
+    <span className={`lcd switch-bus-lcd${amber ? " caution" : ""}`}>
+      {amber ? "BUS: CAUTION" : "BUS: NOMINAL"}
+    </span>
   );
 }
 
@@ -261,13 +270,12 @@ export function ResetControl() {
         onBlur={() => setArmed(false)}
       >
         <span className="reset-guard" aria-hidden="true" />
-        <span className="reset-face">
-          {armed ? "CONFIRM" : isDefault ? "NOMINAL" : "RESET"}
-        </span>
+        {isDefault && !armed && (
+          <span className="reset-led nominal" aria-hidden="true" />
+        )}
+        <span className="reset-face">RESET</span>
       </button>
-      <span className="label">
-        {armed ? "PRESS AGAIN TO RESTORE DEFAULTS" : "FACTORY RESET"}
-      </span>
+      <span className="label">FACTORY RESET</span>
     </div>
   );
 }
