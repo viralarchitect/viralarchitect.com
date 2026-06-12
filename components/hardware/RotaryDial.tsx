@@ -1,7 +1,7 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
-import type { PointerEvent as ReactPointerEvent, KeyboardEvent } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
 import { useConsole } from "@/components/ConsoleProvider";
 import { clamp, pad } from "@/lib/format";
 
@@ -63,6 +63,8 @@ export function RotaryDial({
 }: RotaryDialProps) {
   const { log, blip } = useConsole();
   const gradId = useId();
+  const rangeRef = useRef<HTMLInputElement>(null);
+  const loadbarRef = useRef<HTMLSpanElement>(null);
   const [internal, setInternal] = useState(initial);
   const drag = useRef<{ startY: number; startVal: number } | null>(null);
   const value = controlled ?? internal;
@@ -105,51 +107,39 @@ export function RotaryDial({
     commit(value + (e.deltaY < 0 ? 3 : -3));
   }
 
-  function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
-    switch (e.key) {
-      case "ArrowUp":
-      case "ArrowRight":
-        commit(value + 2);
-        e.preventDefault();
-        break;
-      case "ArrowDown":
-      case "ArrowLeft":
-        commit(value - 2);
-        e.preventDefault();
-        break;
-      case "Home":
-        commit(0);
-        e.preventDefault();
-        break;
-      case "End":
-        commit(100);
-        e.preventDefault();
-        break;
-      default:
-        break;
-    }
-  }
-
   const rounded = Math.round(value);
   const deg = -135 + (value / 100) * 270;
 
+  useEffect(() => {
+    loadbarRef.current?.style.setProperty("--w", `${rounded}%`);
+  }, [rounded]);
+
+  useEffect(() => {
+    const range = rangeRef.current;
+    if (!range) return;
+    range.value = String(rounded);
+  }, [rounded]);
+
   const dial = (
-    <div
-      id={id}
-      className={`dial${size === "sm" ? " sm" : ""}`}
-      role="slider"
-      tabIndex={0}
-      aria-label={ariaLabel}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={rounded}
-      aria-valuetext={formatValue(format, rounded)}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onWheel={onWheel}
-      onKeyDown={onKeyDown}
-    >
+    <div className={`dial${size === "sm" ? " sm" : ""}`}>
+      <input
+        ref={rangeRef}
+        type="range"
+        className="dial-range"
+        min="0"
+        max="100"
+        step="1"
+        aria-label={ariaLabel}
+        onChange={(e) => commit(Number(e.target.value))}
+      />
+      <div
+        className="dial-face"
+        aria-hidden="true"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onWheel={onWheel}
+      >
       <svg viewBox="0 0 100 100" aria-hidden="true">
         <circle
           cx="50"
@@ -161,7 +151,7 @@ export function RotaryDial({
           strokeDasharray="2 6"
         />
         <circle cx="50" cy="50" r="38" fill="#0a0c10" stroke="#1f242b" strokeWidth="2" />
-        <g className="dial-knob" style={{ transform: `rotate(${deg}deg)` }}>
+        <g className="dial-knob" transform={`rotate(${deg} 50 50)`}>
           <circle
             cx="50"
             cy="50"
@@ -188,6 +178,7 @@ export function RotaryDial({
           </radialGradient>
         </defs>
       </svg>
+      </div>
     </div>
   );
 
@@ -197,11 +188,8 @@ export function RotaryDial({
         {formatValue(format, rounded)}
       </span>
       {showBar && (
-        <span className="loadbar">
-          <span
-            className="loadbar-fill"
-            style={{ "--w": `${rounded}%` } as React.CSSProperties}
-          />
+        <span className="loadbar" ref={loadbarRef}>
+          <span className="loadbar-fill" />
         </span>
       )}
       <span className="label">{caption}</span>

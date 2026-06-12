@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import { useConsole } from "@/components/ConsoleProvider";
@@ -74,17 +75,22 @@ export function Uplink() {
   }
 
   return (
-    <section className="section" id="uplink" aria-label="Secure uplink — contact">
-      <div className="section-head">
-        <h2>
+    <CollapsibleSection
+      id="uplink"
+      ariaLabel="Secure uplink — contact"
+      title={
+        <>
           <span className="slash">{"//"}</span> SECURE UPLINK
-        </h2>
-        <span className="meta">
+        </>
+      }
+      meta={
+        <>
           SEC.06 :: <HexCode /> :: TX READY<span className="blink-cursor">_</span>
-        </span>
-      </div>
+        </>
+      }
+    >
       <Panel className="uplink-panel" innerClassName="black">
-        <p className="hexline" style={{ marginBottom: 18 }}>
+        <p className="hexline uplink-lede">
           UPLINK TERMINAL :: ALL TRAFFIC ENCRYPTED :: <HexCode />
           <span className="blink-cursor">_</span>
         </p>
@@ -143,6 +149,6 @@ export function Uplink() {
             </pre>
         </form>
       </Panel>
-    </section>
+    </CollapsibleSection>
   );
 }

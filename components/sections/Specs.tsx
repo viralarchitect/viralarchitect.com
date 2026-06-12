@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import { UptimeYears } from "@/components/Telemetry";
@@ -28,15 +29,20 @@ const SPEC_ROWS: Array<{ k: string; v: string; sub: string }> = [
 
 export function Specs() {
   return (
-    <section className="section" id="specs" aria-label="System specs — background and resume">
-      <div className="section-head">
-        <h2>
+    <CollapsibleSection
+      id="specs"
+      ariaLabel="System specs — background and resume"
+      title={
+        <>
           <span className="slash">{"//"}</span> SYSTEM SPECS
-        </h2>
-        <span className="meta">
+        </>
+      }
+      meta={
+        <>
           SEC.05 :: <HexCode /> :: SPEC SHEET v15
-        </span>
-      </div>
+        </>
+      }
+    >
       <Panel>
         <div className="specs-grid">
           <div className="bio-badge">
@@ -92,6 +98,6 @@ export function Specs() {
           </div>
         </div>
       </Panel>
-    </section>
+    </CollapsibleSection>
   );
 }

@@ -178,6 +178,7 @@ img {
   font-size: 14px;
   line-height: 1;
   pointer-events: none;
+  -webkit-user-select: none;
   user-select: none;
   transition:
     color var(--snap) linear,
@@ -250,6 +251,92 @@ h3 {
 .section-head .meta b {
   color: var(--accent);
   font-weight: 500;
+}
+
+.section-head-toggle {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0 0 8px;
+  margin-bottom: 0;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  transition:
+    border-color 0.15s linear,
+    margin-bottom 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.section-head-toggle:hover .meta,
+.section-head-toggle:focus-visible .meta {
+  color: var(--fg);
+}
+.section-head-toggle:focus-visible {
+  outline: 1px solid rgba(var(--accent-rgb), 0.55);
+  outline-offset: 4px;
+}
+.section-collapsible.is-expanded .section-head-toggle {
+  margin-bottom: 26px;
+}
+.section-toggle-glyph {
+  color: var(--accent);
+}
+.section-glyph-stack {
+  display: inline-grid;
+  place-items: center;
+  vertical-align: baseline;
+}
+.section-glyph-stack > span {
+  grid-area: 1 / 1;
+  transition:
+    opacity 0.28s ease,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.section-glyph-stack > span.is-out {
+  opacity: 0;
+  transform: scale(0.72);
+  pointer-events: none;
+}
+.section-glyph-stack > span.is-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.section-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.section-collapsible.is-expanded .section-collapse {
+  grid-template-rows: 1fr;
+}
+.section-collapse-inner {
+  overflow: hidden;
+  min-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.section-collapsible.is-expanded .section-collapse-inner {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.38s ease 0.08s,
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.04s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .section-head-toggle,
+  .section-collapse,
+  .section-collapse-inner,
+  .section-glyph-stack > span {
+    transition: none;
+  }
+  .section-collapse-inner {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .label {
@@ -419,6 +506,7 @@ h3 {
 }
 .boot-progress-fill {
   height: 100%;
+  width: var(--boot-w, 0%);
   background: repeating-linear-gradient(
     90deg,
     var(--green) 0 8px,
@@ -469,6 +557,7 @@ h3 {
   gap: 18px;
   padding: 10px 20px;
   background: rgba(5, 6, 9, 0.88);
+  -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   border-bottom: 1px solid rgba(var(--accent-rgb), 0.3);
   font-size: 12px;
@@ -593,6 +682,12 @@ h3 {
   color: var(--accent);
   min-height: 1.6em;
   letter-spacing: 0.04em;
+}
+@media (min-width: 901px) {
+  .hero-sub {
+    white-space: pre-line;
+    min-height: 4.5em;
+  }
 }
 .hero-tagline {
   margin-top: 6px;
@@ -786,6 +881,8 @@ h3 {
   width: 100%;
   height: 28px;
   border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgb(var(--chroma-rgb));
+  box-shadow: 0 0 18px rgba(var(--chroma-rgb), var(--chroma-glow-alpha, 0.5));
   transition:
     background 0.12s linear,
     box-shadow 0.12s linear;
@@ -1118,20 +1215,38 @@ h3 {
   align-items: flex-start;
 }
 .dial {
+  position: relative;
   width: 96px;
   height: 96px;
+  flex: none;
+}
+.dial-range {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.dial-face {
+  width: 100%;
+  height: 100%;
   cursor: grab;
   touch-action: none;
+  -webkit-user-select: none;
   user-select: none;
   border-radius: 50%;
-  flex: none;
+}
+.dial-face:active {
+  cursor: grabbing;
 }
 .dial.sm {
   width: 74px;
   height: 74px;
-}
-.dial:active {
-  cursor: grabbing;
 }
 .dial svg {
   display: block;
@@ -1684,6 +1799,9 @@ h3 {
    ============================================================ */
 .uplink-panel .panel-inner {
   padding: 26px 28px 24px;
+}
+.uplink-panel .hexline.uplink-lede {
+  margin-bottom: 18px;
 }
 .uplink-grid {
   display: grid;

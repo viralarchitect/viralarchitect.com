@@ -27,6 +27,7 @@ export function BootOverlay() {
   const [progress, setProgress] = useState(0);
   const [granted, setGranted] = useState(false);
   const finished = useRef(false);
+  const progressFillRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -92,6 +93,10 @@ export function BootOverlay() {
     };
   }, []);
 
+  useEffect(() => {
+    progressFillRef.current?.style.setProperty("--boot-w", `${progress}%`);
+  }, [progress]);
+
   if (killed) return null;
 
   return (
@@ -122,7 +127,7 @@ export function BootOverlay() {
         </div>
         <pre className="boot-text">{text}</pre>
         <div className="boot-progress" aria-hidden="true">
-          <div className="boot-progress-fill" style={{ width: `${progress}%` }} />
+          <div ref={progressFillRef} className="boot-progress-fill" />
         </div>
         <div className={`boot-granted${granted ? " show" : ""}`}>
           ACCESS GRANTED
