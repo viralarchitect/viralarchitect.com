@@ -7,6 +7,17 @@ export const PROFILE = {
     "Site Reliability Engineer and Systems Administrator blending 15 years of keep-the-lights-on enterprise infrastructure with build-the-future software development. Specialized in large-scale hybrid-cloud Windows environments, massive toil reduction through automation, and modern SaaS products.",
 } as const;
 
+export const SOCIAL_LINKS = {
+  facebook: "https://www.facebook.com/profile.php?id=61578973284922",
+  x: "https://x.com/viralarchitect",
+  linkedin: "https://www.linkedin.com/in/nicholas-king-ccw/",
+} as const;
+
+export const UPLINK = {
+  displayEmail: "contact@viralarchitect.com",
+  deliverTo: "viral.architect@gmail.com",
+} as const;
+
 export type SpecRow = {
   k: string;
   v: string;

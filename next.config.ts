@@ -6,14 +6,16 @@ const isPreview = process.env.VERCEL_ENV === "preview";
 const isDev = process.env.NODE_ENV === "development";
 const live = (sources: string) => (isPreview ? ` ${sources}` : "");
 
+const turnstile = "https://challenges.cloudflare.com";
+
 const CSP = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${live("https://vercel.live")}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} ${turnstile}${live("https://vercel.live")}`,
   `style-src 'self' 'unsafe-inline'${live("https://vercel.live")}`,
   `img-src 'self' data: https://placehold.co${live("blob: https://vercel.live https://vercel.com")}`,
   `font-src 'self'${live("https://vercel.live https://assets.vercel.com")}`,
-  `connect-src 'self'${live("https://vercel.live wss://*.pusher.com")}`,
-  `frame-src 'self'${live("https://vercel.live")}`,
+  `connect-src 'self' ${turnstile}${live("https://vercel.live wss://*.pusher.com")}`,
+  `frame-src 'self' ${turnstile}${live("https://vercel.live")}`,
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
