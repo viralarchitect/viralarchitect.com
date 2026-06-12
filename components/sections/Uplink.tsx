@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
-import { ScanControl } from "@/components/hardware/controls";
 import { useConsole } from "@/components/ConsoleProvider";
 import { randHex } from "@/lib/format";
 
@@ -81,7 +80,7 @@ export function Uplink() {
           <span className="slash">{"//"}</span> SECURE UPLINK
         </h2>
         <span className="meta">
-          SEC.05 :: <HexCode /> :: TX READY<span className="blink-cursor">_</span>
+          SEC.06 :: <HexCode /> :: TX READY<span className="blink-cursor">_</span>
         </span>
       </div>
       <Panel className="uplink-panel" innerClassName="black">
@@ -89,8 +88,7 @@ export function Uplink() {
           UPLINK TERMINAL :: ALL TRAFFIC ENCRYPTED :: <HexCode />
           <span className="blink-cursor">_</span>
         </p>
-        <div className="uplink-grid">
-          <form className="uplink-form" onSubmit={onSubmit} noValidate>
+        <form className="uplink-form" onSubmit={onSubmit} noValidate>
             <div className="prompt-line">
               <label htmlFor="f-callsign">CALLSIGN:</label>
               <input
@@ -143,16 +141,7 @@ export function Uplink() {
                 </>
               )}
             </pre>
-          </form>
-          <div className="uplink-side">
-            <ScanControl />
-            <span className="side-note">
-              EMCON BUS :: CRT SCANLINE EMISSIONS.
-              <br />
-              LIFT GUARD TO ARM. SUPPRESS FOR <b>CLEAN-FEED READING</b>.
-            </span>
-          </div>
-        </div>
+        </form>
       </Panel>
     </section>
   );

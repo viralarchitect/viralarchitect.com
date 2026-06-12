@@ -30,8 +30,10 @@ type RotaryDialProps = {
   id: string;
   caption: string;
   ariaLabel: string;
-  /** Initial value, 0–100. */
-  initial: number;
+  /** Initial value, 0–100 (uncontrolled mode). */
+  initial?: number;
+  /** Controlled value, 0–100. */
+  value?: number;
   /** LCD readout format. */
   format: DialFormat;
   /** Optional secondary loadbar bound to the value. */
@@ -39,7 +41,10 @@ type RotaryDialProps = {
   size?: "md" | "sm";
   /** Row layout puts LCD/readouts beside the dial instead of below. */
   layout?: "column" | "row";
+  /** Live updates while dragging. */
   onValue?: (v: number) => void;
+  /** Fires once when the operator releases the dial. */
+  onRelease?: (v: number) => void;
 };
 
 /** Rotary control: pointer-drag, scroll wheel, and arrow keys. */
@@ -47,21 +52,26 @@ export function RotaryDial({
   id,
   caption,
   ariaLabel,
-  initial,
+  initial = 50,
+  value: controlled,
   format,
   showBar = false,
   size = "md",
   layout = "column",
   onValue,
+  onRelease,
 }: RotaryDialProps) {
   const { log, blip } = useConsole();
   const gradId = useId();
-  const [value, setValue] = useState(initial);
+  const [internal, setInternal] = useState(initial);
   const drag = useRef<{ startY: number; startVal: number } | null>(null);
+  const value = controlled ?? internal;
 
   function commit(v: number) {
     const next = clamp(v, 0, 100);
-    setValue(next);
+    if (controlled === undefined) {
+      setInternal(next);
+    }
     onValue?.(Math.round(next));
   }
 
@@ -79,11 +89,16 @@ export function RotaryDial({
   function onPointerUp() {
     if (!drag.current) return;
     drag.current = null;
+    const rounded = Math.round(value);
     blip(700 + value * 8);
-    log(
-      "DIAL",
-      `${ariaLabel.toUpperCase()} SET → ${formatValue(format, Math.round(value))}`,
-    );
+    if (onRelease) {
+      onRelease(rounded);
+    } else {
+      log(
+        "DIAL",
+        `${ariaLabel.toUpperCase()} SET → ${formatValue(format, rounded)}`,
+      );
+    }
   }
 
   function onWheel(e: React.WheelEvent<HTMLDivElement>) {

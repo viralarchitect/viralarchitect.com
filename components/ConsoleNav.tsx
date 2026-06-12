@@ -7,10 +7,11 @@ import { utcStamp } from "@/lib/format";
 
 const LINKS = [
   { n: "01", label: "INIT", href: "#initialize" },
-  { n: "02", label: "DEPLOY", href: "#deployments" },
-  { n: "03", label: "COMMS", href: "#comms" },
-  { n: "04", label: "SPECS", href: "#specs" },
-  { n: "05", label: "UPLINK", href: "#uplink" },
+  { n: "02", label: "HW", href: "#hardware" },
+  { n: "03", label: "DEPLOY", href: "#deployments" },
+  { n: "04", label: "COMMS", href: "#comms" },
+  { n: "05", label: "SPECS", href: "#specs" },
+  { n: "06", label: "UPLINK", href: "#uplink" },
 ];
 
 export function ConsoleNav() {
