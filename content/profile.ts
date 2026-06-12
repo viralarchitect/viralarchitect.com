@@ -21,7 +21,7 @@ export const SPEC_ROWS: SpecRow[] = [
   },
   {
     k: "MISSION PROFILE",
-    v: "SRE + SYSTEMS ADMIN + AUTOMATION BUILDER + SAAS FOUNDER",
+    v: "SRE + SYSTEMS ADMIN + DEVELOPER",
     sub:
       "15 YRS ENTERPRISE OPS :: HYBRID-CLOUD WINDOWS :: TOIL REDUCTION AT SCALE",
   },
@@ -134,11 +134,14 @@ export const DEPLOYMENT_NODES: DeploymentNode[] = [
     img: "https://placehold.co/800x450/050705/00E5FF/png?text=KYNDRYL+::+ENTERPRISE+OPS",
     imgAlt: "Kyndryl enterprise hybrid-cloud operations",
     desc:
-      "Lead Systems Administrator for hybrid-cloud environments supporting up to 1,200 Windows Servers across healthcare and financial services — HIPAA-compliant.",
+      "Lead Systems Administrator for hybrid-cloud environments supporting thousands of Windows Servers across healthcare, financial, and industrial services.",
     highlights: [
-      "Sole Windows SA for major healthcare account",
-      "WSUS + Ansible Tower patch automation overhaul",
-      "Custom BigFix analyses for fleet metrics at scale",
+      "Sole Domain Administrator for major healthcare account (HIPAA-compliant)",
+      "BigFix → Ansible migration",
+      "WSUS Deployment, automated patching via Ansible",
+      "Windows Server Version Upgrades (2003 → 2025)",
+      "AD Forest health monitoring and reporting",
+      "Automated Group Policy backup, optimization, and reporting",
     ],
     uptimeOffset: 8200000,
     command: "ping",
@@ -155,10 +158,11 @@ export const DEPLOYMENT_NODES: DeploymentNode[] = [
     img: "https://placehold.co/800x450/050705/FFB000/png?text=IBM+::+AUTOMATION+CORE",
     imgAlt: "IBM Windows Server administration and automation",
     desc:
-      "Windows Server Administrator and Automation Specialist for regulated healthcare and aerospace clients. Reduced manual ops by 60%+ through enterprise automation.",
+      "Windows Server Administrator and Automation Specialist for regulated transportation and aerospace clients. Reduced manual ops by 60%+ through enterprise automation.",
     highlights: [
-      "BigFix → Ansible/Ansible Tower migration lead",
-      "Daily AD/GPO health check automation",
+      "Server inventory collection at scale with Windows Batch scripts",
+      "Automated patching with native-only batch scripts accross hundreds of Windows 2003 servers before EOL",
+      "BigFix Analysis / Fixlet developer for fleet metrics and patch compliance",
       "Offshore team training and mentorship",
     ],
     uptimeOffset: 25000000,
@@ -176,11 +180,12 @@ export const DEPLOYMENT_NODES: DeploymentNode[] = [
     img: "https://placehold.co/800x450/050705/00E5FF/png?text=WIU+::+FOUNDATION+LAYER",
     imgAlt: "Western Illinois University technical foundation",
     desc:
-      "Deskside support, hardware diagnostics, and repair for computer labs and enterprise equipment. Origin node for continuous systems operation.",
+      "B.S. Network Technologies, Deskside support, hardware diagnostics, and repair for computer labs and enterprise equipment.",
     highlights: [
       "Enterprise hardware diagnostics & repair",
       "Computer lab infrastructure support",
       "B.S. Network Technologies — Department Scholar",
+      "Minor in Information Systems",
     ],
     uptimeOffset: 35000000,
     command: "purge",
