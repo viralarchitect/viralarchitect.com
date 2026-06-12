@@ -51,10 +51,10 @@ export function UptimeCounter({ offset }: { offset: number }) {
   );
 }
 
-/** Years since the system came online (2011). Computed at render;
+/** Years since the system came online. Computed at render;
     suppressHydrationWarning covers the rare year-boundary mismatch. */
-export function UptimeYears() {
-  const years = new Date().getUTCFullYear() - 2011;
+export function UptimeYears({ startYear = 2011 }: { startYear?: number }) {
+  const years = new Date().getUTCFullYear() - startYear;
   return (
     <small suppressHydrationWarning>≈ {years} YRS CONTINUOUS OPERATION</small>
   );

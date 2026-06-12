@@ -19,10 +19,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://viralarchitect.com"),
   title: "VIRAL ARCHITECT :: SYSTEM CONSOLE",
   description:
-    "Viral Architect — personal console of Nicholas King. Designing systems that scale, ideas that spread, and strategies to execute. Active deployments, comms array, system specs, secure uplink.",
+    "Viral Architect — personal console of Nicholas King, Site Reliability Engineer. 15 years of enterprise Windows infrastructure, automation at scale, and modern SaaS (EquipQR). Active deployments, system specs, secure uplink.",
   openGraph: {
     title: "VIRAL ARCHITECT :: SYSTEM CONSOLE",
-    description: "Designing systems that scale, ideas that spread, and strategies to execute.",
+    description:
+      "Site Reliability Engineer blending enterprise hybrid-cloud ops, toil-killing automation, and SaaS product development.",
     type: "website",
     images: [
       "https://placehold.co/1200x630/0b0c10/00FF41/png?text=VIRAL+ARCHITECT+::+SYSTEM+CONSOLE",
