@@ -9,11 +9,12 @@ export function Initialize() {
       <div className="hero-grid">
         <Panel className="emblem-wrap">
           <Image
-            src="https://placehold.co/400x400/050705/00FF41/png?text=VIRAL%0AARCHITECT%0A%5BEMBLEM%5D"
+            src="/Viral-Architect-Logo.svg"
             width={400}
             height={400}
-            alt="Viral Architect logo placeholder"
+            alt="Viral Architect logo"
             priority
+            unoptimized
           />
           <div className="emblem-caption">
             <span>EMBLEM v1.0</span>
