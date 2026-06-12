@@ -693,6 +693,20 @@ h3 {
     min-height: 4.5em;
   }
 }
+.hero-social-link {
+  text-decoration: none;
+  transition:
+    color var(--snap) linear,
+    text-shadow var(--snap) linear;
+}
+.hero-social-link:hover {
+  color: var(--cyan);
+  text-decoration: none;
+  text-shadow: 0 0 calc(10px * var(--style-glow)) rgba(var(--cyan-rgb), 0.75);
+}
+.hexline.hero-social-link:hover b {
+  color: var(--cyan);
+}
 .hero-tagline {
   margin-top: 6px;
   color: var(--fg-lo);
@@ -1902,6 +1916,24 @@ h3 {
   outline: none;
   border-bottom-color: var(--accent);
   box-shadow: 0 1px 0 rgba(var(--accent-rgb), 0.5);
+}
+.uplink-turnstile {
+  max-width: 720px;
+}
+.uplink-turnstile-warn {
+  margin: 0;
+}
+.uplink-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.execute-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 .uplink-actions {
   display: flex;

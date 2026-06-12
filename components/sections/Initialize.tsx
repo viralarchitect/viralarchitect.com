@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import { TypedText } from "@/components/TypedText";
+import { SOCIAL_LINKS } from "@/content/profile";
 
 export function Initialize() {
   return (
@@ -40,14 +41,32 @@ export function Initialize() {
             </span>
           </p>
           <div className="hero-telemetry">
-            <span className="hexline">
-              NODE <HexCode /> :: RELAY <HexCode />
-            </span>
-            <span className="hexline">
-              STATUS: <b>NOMINAL</b>
-            </span>
-            <a className="hero-hw-link" href="#hardware">
-              → OPEN CONTROL PLATE
+            <a
+              className="hexline hero-social-link"
+              href={SOCIAL_LINKS.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Viral Architect on Facebook"
+            >
+              UPLINK :: FACEBOOK :: <HexCode />
+            </a>
+            <a
+              className="hexline hero-social-link"
+              href={SOCIAL_LINKS.x}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Viral Architect on X"
+            >
+              RELAY :: X :: <HexCode />
+            </a>
+            <a
+              className="hexline hero-social-link"
+              href={SOCIAL_LINKS.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Nicholas King on LinkedIn"
+            >
+              STATUS :: LINKEDIN :: <b>ONLINE</b>
             </a>
           </div>
         </div>
