@@ -42,10 +42,10 @@ export function Specs() {
           <div className="bio-badge">
             <div className="bio-frame">
               <Image
-                src="https://placehold.co/200x200/060a0d/00E5FF/png?text=BIOMETRIC%0AID"
+                src="/Nicholas-King-Photo.jpg"
                 width={200}
                 height={200}
-                alt="Author biometric photo placeholder"
+                alt="Portrait of Nicholas King"
               />
               <span className="bio-scan" aria-hidden="true" />
             </div>
