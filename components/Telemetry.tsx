@@ -1,11 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { pad } from "@/lib/format";
 
 /** Decorative loadbar that drifts to random values. */
 export function TeleBar({ initial }: { initial: number }) {
   const [w, setW] = useState(initial);
+  const fillRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    fillRef.current?.style.setProperty("--w", `${w}%`);
+  }, [w]);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -18,10 +23,7 @@ export function TeleBar({ initial }: { initial: number }) {
 
   return (
     <span className="loadbar">
-      <span
-        className="loadbar-fill"
-        style={{ "--w": `${w}%` } as React.CSSProperties}
-      />
+      <span ref={fillRef} className="loadbar-fill" />
     </span>
   );
 }

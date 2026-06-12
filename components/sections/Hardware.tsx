@@ -1,5 +1,6 @@
 "use client";
 
+import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import {
@@ -15,15 +16,22 @@ import {
 
 export function Hardware() {
   return (
-    <section className="section" id="hardware" aria-label="Interactive hardware">
-      <div className="section-head">
-        <h2>
+    <CollapsibleSection
+      id="hardware"
+      ariaLabel="Interactive hardware"
+      defaultExpanded={false}
+      expandOnHash
+      title={
+        <>
           <span className="slash">{"//"}</span> INTERACTIVE HARDWARE
-        </h2>
-        <span className="meta">
-          SEC.02 :: <HexCode /> :: TACTILE BUS ONLINE
-        </span>
-      </div>
+        </>
+      }
+      meta={(expanded) => (
+        <>
+          SEC.02 :: <HexCode /> :: {expanded ? "TACTILE BUS ONLINE" : "PLATE STOWED"}
+        </>
+      )}
+    >
       <Panel className="hw-plate">
         <div className="hw-head">
           <span className="hexline">
@@ -35,7 +43,6 @@ export function Hardware() {
         <ChromaticPreview />
 
         <div className="hw-grid">
-          {/* switches get a full-width row — safety covers need horizontal + 3D room */}
           <div className="hw-group hw-group-switches">
             <span className="label">SWITCH BANK</span>
             <div className="hw-row switches">
@@ -72,6 +79,6 @@ export function Hardware() {
           </div>
         </div>
       </Panel>
-    </section>
+    </CollapsibleSection>
   );
 }

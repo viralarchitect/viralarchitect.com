@@ -19,6 +19,22 @@ export function utcStamp(date: Date): string {
   )}`;
 }
 
+export function localStamp(date: Date): string {
+  return `${pad(date.getHours(), 2)}:${pad(date.getMinutes(), 2)}:${pad(
+    date.getSeconds(),
+    2,
+  )}`;
+}
+
+export function localTimeZoneAbbr(date: Date): string {
+  const part = new Intl.DateTimeFormat(undefined, {
+    timeZoneName: "short",
+  })
+    .formatToParts(date)
+    .find((p) => p.type === "timeZoneName");
+  return part?.value ?? "LOCAL";
+}
+
 export function clamp(v: number, lo: number, hi: number): number {
   return Math.min(hi, Math.max(lo, v));
 }

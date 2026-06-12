@@ -4,7 +4,7 @@
    These exist so server-rendered sections can embed interactive controls
    without passing functions across the server/client boundary. */
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   DEFAULT_STYLE_DIALS,
   useConsole,
@@ -13,7 +13,7 @@ import {
 import { RotaryDial } from "@/components/hardware/RotaryDial";
 import { ToggleSwitch } from "@/components/hardware/ToggleSwitch";
 import { PushButton } from "@/components/hardware/PushButton";
-import { chromaHue, hslToRgb, rgbString } from "@/lib/color";
+import { chromaHue, hslToRgb, rgbString, type Rgb } from "@/lib/color";
 
 /** TGL-01 — node bus accent: green (nominal) / amber (caution). */
 export function AccentControl() {
@@ -22,7 +22,6 @@ export function AccentControl() {
 
   return (
     <ToggleSwitch
-      id="tgl-accent"
       caption={"TGL-01\nACCENT MODE"}
       legendOn="AMBER"
       legendOff="GREEN"
@@ -54,7 +53,6 @@ export function GridControl() {
 
   return (
     <ToggleSwitch
-      id="tgl-grid"
       caption={"TGL-02\nGRID SYS"}
       legendOn="ON"
       legendOff="OFF"
@@ -74,7 +72,6 @@ export function ScanControl() {
 
   return (
     <ToggleSwitch
-      id="tgl-scan"
       caption={"TGL-03\nCRT SCAN"}
       legendOn="ON"
       legendOff="OFF"
@@ -183,6 +180,40 @@ export function StyleDialControls() {
   );
 }
 
+/** Live chromatic swatch fill — CSS vars updated imperatively to avoid inline styles. */
+function ChromaSwatchFill({
+  rgb,
+  glowAlpha,
+}: {
+  rgb: Rgb;
+  glowAlpha: number;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const rgbKey = rgbString(rgb);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.setProperty("--chroma-rgb", rgbKey);
+    el.style.setProperty("--chroma-glow-alpha", String(glowAlpha * 0.65));
+  }, [rgbKey, glowAlpha]);
+
+  return <span ref={ref} className="chroma-fill" />;
+}
+
+/** Chase LED with staggered animation delay via CSS custom property. */
+function ChaseLed({ index, run }: { index: number; run: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    ref.current?.style.setProperty("--chase", `${index * 0.18}s`);
+  }, [index]);
+
+  return (
+    <span ref={ref} className={run > 0 ? "led chase" : "led"} />
+  );
+}
+
 /** Chromatic preview strip — live swatches for each style bus. */
 export function ChromaticPreview() {
   const { styleDials, accent } = useConsole();
@@ -217,13 +248,7 @@ export function ChromaticPreview() {
     <div className="chroma-preview" aria-label="Live chromatic bus preview">
       {swatches.map((swatch) => (
         <div key={swatch.label} className="chroma-swatch">
-          <span
-            className="chroma-fill"
-            style={{
-              background: `rgb(${rgbString(swatch.rgb)})`,
-              boxShadow: `0 0 18px rgba(${rgbString(swatch.rgb)}, ${glowAlpha * 0.65})`,
-            }}
-          />
+          <ChromaSwatchFill rgb={swatch.rgb} glowAlpha={glowAlpha} />
           <span className="label">{swatch.label}</span>
         </div>
       ))}
@@ -332,11 +357,7 @@ export function SelfTestUnit() {
   return (
     <div className="btn-unit row">
       {[0, 1, 2].map((i) => (
-        <span
-          key={`${run}-${i}`}
-          className={run > 0 ? "led chase" : "led"}
-          style={{ "--chase": `${i * 0.18}s` } as React.CSSProperties}
-        />
+        <ChaseLed key={`${run}-${i}`} index={i} run={run} />
       ))}
       <button
         type="button"

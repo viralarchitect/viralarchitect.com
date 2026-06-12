@@ -34,7 +34,7 @@ export function Initialize() {
             <span className="accent glitch">ARCHITECT</span>
           </h1>
           <p className="hero-sub">
-            <TypedText text="Designing systems that scale, spread, and execute." />
+            <TypedText text={"Designing systems that scale,\nideas that spread,\nand strategies to execute."} />
             <span className="blink-cursor" aria-hidden="true">
               _
             </span>
