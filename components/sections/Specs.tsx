@@ -3,29 +3,7 @@ import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import { UptimeYears } from "@/components/Telemetry";
-
-const SPEC_ROWS: Array<{ k: string; v: string; sub: string }> = [
-  {
-    k: "UPTIME",
-    v: "SYSTEM ACTIVE SINCE 2011",
-    sub: "", // rendered via <UptimeYears />
-  },
-  {
-    k: "CORE INFRASTRUCTURE",
-    v: "WINDOWS SERVER & ACTIVE DIRECTORY ADMINISTRATION",
-    sub: "IDENTITY, GPO, DNS/DHCP, VIRTUALIZATION, PATCH ORCHESTRATION",
-  },
-  {
-    k: "ARCHITECTURE",
-    v: "B.S. NETWORK TECHNOLOGIES, INFORMATION SYSTEMS",
-    sub: "FORMAL SCHEMATIC :: NETWORK + SYSTEMS DESIGN",
-  },
-  {
-    k: "CURRENT DEPLOYMENT",
-    v: "ENTERPRISE-LEVEL AD / SERVER ADMIN OPS",
-    sub: "PRODUCTION ENVIRONMENT :: 24/7 DUTY CYCLE",
-  },
-];
+import { PROFILE, SPEC_ROWS } from "@/content/profile";
 
 export function Specs() {
   return (
@@ -39,7 +17,7 @@ export function Specs() {
       }
       meta={
         <>
-          SEC.05 :: <HexCode /> :: SPEC SHEET v15
+          SEC.05 :: <HexCode /> :: SPEC SHEET v16
         </>
       }
     >
@@ -51,23 +29,24 @@ export function Specs() {
                 src="/Nicholas-King-Photo.jpg"
                 width={200}
                 height={200}
-                alt="Portrait of Nicholas King"
+                alt={`Portrait of ${PROFILE.name}`}
               />
               <span className="bio-scan" aria-hidden="true" />
             </div>
             <div className="bio-data">
-              SUBJECT :: <b>KING, NICHOLAS</b>
+              SUBJECT :: <b>{PROFILE.name.toUpperCase()}</b>
               <br />
-              ROLE :: <b>SYSTEMS ARCHITECT</b>
+              ROLE :: <b>{PROFILE.role.toUpperCase()}</b>
               <br />
               CLEARANCE :: <b>LEVEL-5 / ROOT</b>
               <br />
-              BADGE :: <b>VA-2011-NK</b>
+              BADGE :: <b>{PROFILE.badge}</b>
               <br />
               SCAN :: <b>VERIFIED ✓</b>
             </div>
           </div>
           <div>
+            <p className="spec-intro">{PROFILE.summary}</p>
             <table className="spec-table">
               <tbody>
                 {SPEC_ROWS.map((row) => (
@@ -75,7 +54,11 @@ export function Specs() {
                     <th scope="row">{row.k}</th>
                     <td>
                       {row.v}
-                      {row.k === "UPTIME" ? <UptimeYears /> : <small>{row.sub}</small>}
+                      {row.k === "UPTIME" ? (
+                        <UptimeYears startYear={PROFILE.careerStartYear} />
+                      ) : (
+                        <small>{row.sub}</small>
+                      )}
                     </td>
                   </tr>
                 ))}

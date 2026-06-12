@@ -34,7 +34,7 @@ export function Initialize() {
             <span className="accent glitch">ARCHITECT</span>
           </h1>
           <p className="hero-sub">
-            <TypedText text={"Designing systems that scale,\nideas that spread,\nand strategies to execute."} />
+            <TypedText text={"15 years keeping enterprise lights on.\nBuilding automation that kills toil.\nShipping SaaS that earns revenue."} />
             <span className="blink-cursor" aria-hidden="true">
               _
             </span>

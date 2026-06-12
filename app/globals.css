@@ -398,6 +398,10 @@ h3 {
   background: var(--amber);
   box-shadow: 0 0 7px rgba(var(--amber-rgb), 0.9);
 }
+.dot.cyan {
+  background: var(--cyan);
+  box-shadow: 0 0 7px rgba(var(--cyan-rgb), 0.9);
+}
 .dot.blink {
   animation: blink 1s steps(2, start) infinite;
 }
@@ -1433,6 +1437,13 @@ h3 {
   display: block;
   margin-bottom: 2px;
 }
+.node-period {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--fg-lo);
+}
 .node-status {
   font-size: 11px;
   letter-spacing: 0.12em;
@@ -1446,6 +1457,12 @@ h3 {
 }
 .node-status.rnd {
   color: var(--amber);
+}
+.node-status.legacy {
+  color: var(--amber);
+}
+.node-status.archive {
+  color: var(--cyan);
 }
 .node-screen {
   position: relative;
@@ -1475,6 +1492,24 @@ h3 {
   font-size: 13.5px;
 }
 .node-desc .tag {
+  color: var(--accent);
+}
+.node-highlights {
+  margin: 10px 0 0;
+  padding: 0 0 0 18px;
+  list-style: none;
+  font-size: 12px;
+  color: var(--fg-lo);
+  line-height: 1.7;
+}
+.node-highlights li {
+  position: relative;
+  padding-left: 4px;
+}
+.node-highlights li::before {
+  content: "▸";
+  position: absolute;
+  left: -14px;
   color: var(--accent);
 }
 .node-tele {
@@ -1735,6 +1770,16 @@ h3 {
 .bio-data b {
   color: var(--cyan);
   font-weight: 400;
+}
+.spec-intro {
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px dashed rgba(var(--accent-rgb), 0.25);
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--fg-hi);
+  letter-spacing: 0.04em;
 }
 .spec-table {
   width: 100%;
