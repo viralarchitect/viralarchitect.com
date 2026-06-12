@@ -3,11 +3,12 @@ import type { NextConfig } from "next";
 /* Vercel preview deployments inject the vercel.live toolbar;
    allow it there only — production keeps the tight policy. */
 const isPreview = process.env.VERCEL_ENV === "preview";
+const isDev = process.env.NODE_ENV === "development";
 const live = (sources: string) => (isPreview ? ` ${sources}` : "");
 
 const CSP = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${live("https://vercel.live")}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${live("https://vercel.live")}`,
   `style-src 'self' 'unsafe-inline'${live("https://vercel.live")}`,
   `img-src 'self' data: https://placehold.co${live("blob: https://vercel.live https://vercel.com")}`,
   `font-src 'self'${live("https://vercel.live https://assets.vercel.com")}`,

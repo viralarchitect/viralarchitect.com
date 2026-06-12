@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useConsole } from "@/components/ConsoleProvider";
 
 type ToggleSwitchProps = {
-  id: string;
   /** Two-line caption under the switch, e.g. "TGL-01\nACCENT MODE". */
   caption: string;
   legendOn: string;
@@ -18,7 +17,6 @@ type ToggleSwitchProps = {
 
 /** Aerospace-style toggle switch with optional safety cover. */
 export function ToggleSwitch({
-  id,
   caption,
   legendOn,
   legendOff,
@@ -47,35 +45,66 @@ export function ToggleSwitch({
     );
   }
 
+  const toggleTabIndex = covered && !coverOpen ? -1 : 0;
+  const toggleFace = (
+    <>
+      <span className="toggle-legend legend-on">{legendOn}</span>
+      <span className="toggle-track">
+        <span className="toggle-lever" />
+      </span>
+      <span className="toggle-legend legend-off">{legendOff}</span>
+    </>
+  );
+
   return (
     <div className="switch-unit">
-      {covered && (
+      {covered &&
+        (coverOpen ? (
+          <button
+            type="button"
+            className="safety-cover open"
+            aria-expanded="true"
+            aria-label={`Safety cover for ${ariaLabel}`}
+            onClick={toggleCover}
+          >
+            LIFT
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="safety-cover"
+            aria-expanded="false"
+            aria-label={`Safety cover for ${ariaLabel}`}
+            onClick={toggleCover}
+          >
+            LIFT
+          </button>
+        ))}
+      {checked ? (
         <button
           type="button"
-          className={`safety-cover${coverOpen ? " open" : ""}`}
-          aria-expanded={coverOpen}
-          aria-label={`Safety cover for ${ariaLabel}`}
-          onClick={toggleCover}
+          className="toggle"
+          role="switch"
+          aria-checked="true"
+          aria-label={ariaLabel}
+          tabIndex={toggleTabIndex}
+          onClick={flip}
         >
-          LIFT
+          {toggleFace}
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="toggle"
+          role="switch"
+          aria-checked="false"
+          aria-label={ariaLabel}
+          tabIndex={toggleTabIndex}
+          onClick={flip}
+        >
+          {toggleFace}
         </button>
       )}
-      <button
-        type="button"
-        id={id}
-        className="toggle"
-        role="switch"
-        aria-checked={checked}
-        aria-label={ariaLabel}
-        tabIndex={covered && !coverOpen ? -1 : 0}
-        onClick={flip}
-      >
-        <span className="toggle-legend legend-on">{legendOn}</span>
-        <span className="toggle-track">
-          <span className="toggle-lever" />
-        </span>
-        <span className="toggle-legend legend-off">{legendOff}</span>
-      </button>
       <span className="label">
         {line1}
         {line2 && (

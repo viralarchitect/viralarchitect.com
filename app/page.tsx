@@ -20,11 +20,11 @@ export default function Home() {
       <ConsoleNav />
       <main>
         <Initialize />
-        <Hardware />
         <Deployments />
         <Comms />
         <Specs />
         <Uplink />
+        <Hardware />
       </main>
       <ConsoleFooter />
       <OpsTicker />

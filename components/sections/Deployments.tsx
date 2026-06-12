@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import { TeleBar, UptimeCounter } from "@/components/Telemetry";
@@ -97,20 +98,25 @@ function NodeCard({ node }: { node: Node }) {
 
 export function Deployments() {
   return (
-    <section className="section" id="deployments" aria-label="Active deployments — projects">
-      <div className="section-head">
-        <h2>
+    <CollapsibleSection
+      id="deployments"
+      ariaLabel="Active deployments — projects"
+      title={
+        <>
           <span className="slash">{"//"}</span> ACTIVE DEPLOYMENTS
-        </h2>
-        <span className="meta">
+        </>
+      }
+      meta={
+        <>
           SEC.03 :: <HexCode /> :: 2 NODES TRACKED
-        </span>
-      </div>
+        </>
+      }
+    >
       <div className="node-grid">
         {NODES.map((node) => (
           <NodeCard key={node.id} node={node} />
         ))}
       </div>
-    </section>
+    </CollapsibleSection>
   );
 }

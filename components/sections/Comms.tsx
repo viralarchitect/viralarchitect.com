@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import { useConsole } from "@/components/ConsoleProvider";
@@ -11,6 +12,19 @@ const BAR_COUNT = 48;
 const BARS = Array.from({ length: BAR_COUNT }, (_, i) =>
   Math.min(18 + Math.round(Math.abs(Math.sin(i * 0.55)) * 60 + seeded(i) * 22), 100),
 );
+
+function WfBar({ height, index }: { height: number; index: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.setProperty("--h", String(height));
+    el.style.setProperty("--d", `${(index * 0.045).toFixed(3)}s`);
+  }, [height, index]);
+
+  return <span ref={ref} className="wf-bar" />;
+}
 
 type PlayerState = "idle" | "connecting" | "playing" | "paused";
 
@@ -75,15 +89,20 @@ export function Comms() {
   }
 
   return (
-    <section className="section" id="comms" aria-label="Comms array — podcast">
-      <div className="section-head">
-        <h2>
+    <CollapsibleSection
+      id="comms"
+      ariaLabel="Comms array — podcast"
+      title={
+        <>
           <span className="slash">{"//"}</span> COMMS ARRAY
-        </h2>
-        <span className="meta">
+        </>
+      }
+      meta={
+        <>
           SEC.04 :: <HexCode /> :: CHANNEL ENCRYPTED
-        </span>
-      </div>
+        </>
+      }
+    >
       <Panel>
         <div className="comms-grid">
           <div className="comms-log">
@@ -125,16 +144,7 @@ export function Comms() {
             </div>
             <div className="waveform" aria-hidden="true">
               {BARS.map((h, i) => (
-                <span
-                  key={i}
-                  className="wf-bar"
-                  style={
-                    {
-                      "--h": h,
-                      "--d": `${(i * 0.045).toFixed(3)}s`,
-                    } as React.CSSProperties
-                  }
-                />
+                <WfBar key={i} height={h} index={i} />
               ))}
             </div>
             <div className="freq-strip player-footer">
@@ -154,6 +164,6 @@ export function Comms() {
           </div>
         </div>
       </Panel>
-    </section>
+    </CollapsibleSection>
   );
 }

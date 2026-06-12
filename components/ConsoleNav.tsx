@@ -3,23 +3,25 @@
 import { useEffect, useState } from "react";
 import { useConsole } from "@/components/ConsoleProvider";
 import { HexCode } from "@/components/HexCode";
-import { utcStamp } from "@/lib/format";
+import { localStamp, localTimeZoneAbbr } from "@/lib/format";
 
 const LINKS = [
   { n: "01", label: "INIT", href: "#initialize" },
-  { n: "02", label: "HW", href: "#hardware" },
-  { n: "03", label: "DEPLOY", href: "#deployments" },
-  { n: "04", label: "COMMS", href: "#comms" },
-  { n: "05", label: "SPECS", href: "#specs" },
-  { n: "06", label: "UPLINK", href: "#uplink" },
+  { n: "02", label: "DEPLOY", href: "#deployments" },
+  { n: "03", label: "COMMS", href: "#comms" },
+  { n: "04", label: "SPECS", href: "#specs" },
+  { n: "05", label: "UPLINK", href: "#uplink" },
 ];
 
 export function ConsoleNav() {
   const { snd, setSnd, log, blip } = useConsole();
-  const [clock, setClock] = useState("--:--:--");
+  const [clock, setClock] = useState({ time: "--:--:--", tz: "" });
 
   useEffect(() => {
-    const tick = () => setClock(utcStamp(new Date()));
+    const tick = () => {
+      const now = new Date();
+      setClock({ time: localStamp(now), tz: localTimeZoneAbbr(now) });
+    };
     tick();
     const t = setInterval(tick, 1000);
     return () => clearInterval(t);
@@ -34,7 +36,7 @@ export function ConsoleNav() {
 
   return (
     <header className="console-nav">
-      <span className="nav-mark glitch">VA::CONSOLE</span>
+      <span className="nav-mark glitch">VIRAL::ARCHITECT</span>
       <nav className="nav-links" aria-label="Section navigation">
         {LINKS.map((l) => (
           <a key={l.n} href={l.href}>
@@ -46,16 +48,28 @@ export function ConsoleNav() {
         <span className="hexline">
           SYS <HexCode />
         </span>
-        <button
-          type="button"
-          className="mini-toggle"
-          aria-pressed={snd}
-          onClick={toggleSnd}
-        >
-          SND {snd ? "ON" : "OFF"}
-        </button>
+        {snd ? (
+          <button
+            type="button"
+            className="mini-toggle"
+            aria-pressed="true"
+            onClick={toggleSnd}
+          >
+            SND ON
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="mini-toggle"
+            aria-pressed="false"
+            onClick={toggleSnd}
+          >
+            SND OFF
+          </button>
+        )}
         <span className="nav-clock" suppressHydrationWarning>
-          {clock} UTC
+          {clock.time}
+          {clock.tz ? ` ${clock.tz}` : ""}
         </span>
       </div>
     </header>
