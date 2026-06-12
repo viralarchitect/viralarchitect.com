@@ -42,7 +42,4 @@ next-env.d.ts
 
 # cursor continuous learning
 .cursor/hooks/state/*
-.cursor/hooks/state/continual-learning.json
-scripts/setup-uplink-credentials.ps1
-scripts/setup-uplink.ps1
-scripts/uplink.op.env
+scripts/*
