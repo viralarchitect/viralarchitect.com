@@ -655,12 +655,19 @@ h3 {
   min-width: 0;
 }
 .hw-grid {
-  display: grid;
-  grid-template-columns: minmax(240px, 1fr) minmax(320px, 2fr) minmax(200px, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 22px;
+  min-width: 0;
 }
-@media (max-width: 1080px) {
-  .hw-grid {
+.hw-controls-row {
+  display: grid;
+  grid-template-columns: minmax(0, 2.4fr) minmax(200px, 1fr);
+  gap: 22px;
+  min-width: 0;
+}
+@media (max-width: 860px) {
+  .hw-controls-row {
     grid-template-columns: 1fr;
   }
 }
@@ -669,9 +676,7 @@ h3 {
   background: rgba(0, 0, 0, 0.25);
   padding: 16px 16px 14px;
   position: relative;
-}
-.hw-group-wide {
-  grid-column: span 1;
+  min-width: 0;
 }
 .hw-group > .label {
   display: block;
@@ -687,28 +692,34 @@ h3 {
   flex-wrap: wrap;
 }
 .hw-row.switches {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  align-items: start;
-  justify-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(28px, 6vw, 56px);
+  flex-wrap: wrap;
+  padding: 0 8px;
 }
 .switch-slot {
   display: flex;
   justify-content: center;
-  width: 100%;
-  min-height: 148px;
+  flex: 0 0 100px;
+  width: 100px;
+  min-height: 168px;
 }
 .switch-slot .switch-unit {
   width: 86px;
+  flex-shrink: 0;
 }
-@media (max-width: 420px) {
-  .hw-row.switches {
-    grid-template-columns: 1fr;
-  }
-  .switch-slot {
-    min-height: 0;
-  }
+/* reserve identical vertical space in every slot so toggles share a baseline */
+.switch-slot::before {
+  content: "";
+  display: block;
+  height: 8px;
+}
+.switch-slot-covered {
+  /* extra isolation so the 3D safety cover can't bleed into neighbours */
+  isolation: isolate;
+  z-index: 1;
 }
 .switch-bus-lcd {
   display: block;
@@ -723,8 +734,22 @@ h3 {
   text-shadow: 0 0 6px rgba(var(--amber-rgb), 0.6);
 }
 .hw-row.dials {
-  justify-content: center;
-  gap: 18px 22px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(108px, 1fr));
+  gap: 16px 20px;
+  justify-items: center;
+}
+@media (max-width: 620px) {
+  .hw-row.dials {
+    grid-template-columns: repeat(2, minmax(108px, 1fr));
+  }
+}
+.hw-row.keys {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 14px;
 }
 .hw-hint {
   margin-top: 14px;
@@ -947,7 +972,9 @@ h3 {
   gap: 8px;
   position: relative;
   perspective: 420px;
+  perspective-origin: center top;
   min-width: 86px;
+  max-width: 86px;
 }
 .switch-unit .label {
   text-align: center;
@@ -1041,9 +1068,9 @@ h3 {
   z-index: 3;
   top: 22px;
   left: 50%;
-  width: 64px;
-  height: 96px;
-  margin-left: -32px;
+  width: 58px;
+  height: 92px;
+  margin-left: -29px;
   cursor: pointer;
   border: none;
   border-radius: 8px;

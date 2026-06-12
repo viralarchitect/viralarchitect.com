@@ -35,7 +35,8 @@ export function Hardware() {
         <ChromaticPreview />
 
         <div className="hw-grid">
-          <div className="hw-group">
+          {/* switches get a full-width row — safety covers need horizontal + 3D room */}
+          <div className="hw-group hw-group-switches">
             <span className="label">SWITCH BANK</span>
             <div className="hw-row switches">
               <div className="switch-slot">
@@ -44,27 +45,29 @@ export function Hardware() {
               <div className="switch-slot">
                 <GridControl />
               </div>
-              <div className="switch-slot">
+              <div className="switch-slot switch-slot-covered">
                 <ScanControl />
               </div>
             </div>
             <AccentBusStatus />
           </div>
 
-          <div className="hw-group hw-group-wide">
-            <span className="label">ROTARY CONTROL — LIVE COLOR BUS</span>
-            <div className="hw-row dials">
-              <StyleDialControls />
+          <div className="hw-controls-row">
+            <div className="hw-group hw-group-dials">
+              <span className="label">ROTARY CONTROL — LIVE COLOR BUS</span>
+              <div className="hw-row dials">
+                <StyleDialControls />
+              </div>
+              <p className="hw-hint">
+                DRAG · SCROLL · ARROW KEYS — DIALS REPAINT THE CONSOLE IN REAL TIME
+              </p>
             </div>
-            <p className="hw-hint">
-              DRAG · SCROLL · ARROW KEYS — DIALS REPAINT THE CONSOLE IN REAL TIME
-            </p>
-          </div>
 
-          <div className="hw-group">
-            <span className="label">COMMAND KEYS</span>
-            <div className="hw-row">
-              <CommandKeys />
+            <div className="hw-group hw-group-keys">
+              <span className="label">COMMAND KEYS</span>
+              <div className="hw-row keys">
+                <CommandKeys />
+              </div>
             </div>
           </div>
         </div>
