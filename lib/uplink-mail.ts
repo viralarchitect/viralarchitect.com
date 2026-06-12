@@ -19,21 +19,27 @@ function mailTransport() {
   });
 }
 
+function safeHeaderValue(value: string): string {
+  return value.replace(/[\r\n]+/g, " ").trim();
+}
+
 export async function sendUplinkMail(input: UplinkMailInput): Promise<void> {
   const fromUser = process.env.GMAIL_USER;
   if (!fromUser) throw new Error("GMAIL_USER not configured");
 
+  const callsign = safeHeaderValue(input.callsign);
+  const replyTo = safeHeaderValue(input.replyTo);
   const transport = mailTransport();
   await transport.sendMail({
     from: `"Uplink Terminal" <${fromUser}>`,
     to: UPLINK.deliverTo,
-    replyTo: input.replyTo,
-    subject: `[UPLINK] Transmission from ${input.callsign}`,
+    replyTo,
+    subject: `[UPLINK] Transmission from ${callsign}`,
     text: [
       input.message,
       "",
-      `// RETURN FREQ: ${input.replyTo}`,
-      `// CALLSIGN: ${input.callsign}`,
+      `// RETURN FREQ: ${replyTo}`,
+      `// CALLSIGN: ${callsign}`,
     ].join("\n"),
   });
 }

@@ -16,9 +16,12 @@ export type UplinkPayload = {
 export type UplinkFieldError =
   | "INCOMPLETE"
   | "FREQ_MALFORMED"
+  | "CALLSIGN_INVALID"
   | "CALLSIGN_TOO_LONG"
   | "MESSAGE_TOO_LONG"
   | "BOT_CHECK_MISSING";
+
+const UPLINK_CONTROL_CHAR_RE = /[\u0000-\u001F\u007F]/;
 
 export function validateUplinkFields(
   input: Partial<UplinkPayload>,
@@ -30,6 +33,7 @@ export function validateUplinkFields(
 
   if (!callsign || !freq || !msg) return "INCOMPLETE";
   if (!UPLINK_EMAIL_RE.test(freq)) return "FREQ_MALFORMED";
+  if (UPLINK_CONTROL_CHAR_RE.test(callsign)) return "CALLSIGN_INVALID";
   if (callsign.length > UPLINK_MAX_CALLSIGN) return "CALLSIGN_TOO_LONG";
   if (msg.length > UPLINK_MAX_MESSAGE) return "MESSAGE_TOO_LONG";
   if (!turnstileToken) return "BOT_CHECK_MISSING";
@@ -42,6 +46,8 @@ export function uplinkFieldErrorMessage(code: UplinkFieldError): string {
       return "ERROR :: TRANSMISSION INCOMPLETE — ALL FIELDS REQUIRED";
     case "FREQ_MALFORMED":
       return "ERROR :: RETURN FREQ MALFORMED — EXPECTED OPERATOR@DOMAIN.TLD";
+    case "CALLSIGN_INVALID":
+      return "ERROR :: CALLSIGN CONTAINS INVALID CHARACTERS";
     case "CALLSIGN_TOO_LONG":
       return "ERROR :: CALLSIGN EXCEEDS MAX LENGTH";
     case "MESSAGE_TOO_LONG":

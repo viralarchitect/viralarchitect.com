@@ -20,8 +20,8 @@ export async function POST(req: NextRequest) {
     return jsonError(400, "ERROR :: PAYLOAD UNREADABLE");
   }
 
-  const checksum = String(body._checksum ?? "").trim();
-  if (checksum) {
+  const checksum = String(body._checksum ?? "");
+  if (checksum.length > 0) {
     return jsonError(400, "ERROR :: TRANSMISSION REJECTED");
   }
 
