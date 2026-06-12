@@ -7,16 +7,22 @@ export type UplinkMailInput = {
   message: string;
 };
 
-function mailTransport() {
+let cachedTransport: nodemailer.Transporter | null = null;
+
+function mailTransport(): nodemailer.Transporter {
+  if (cachedTransport) return cachedTransport;
+
   const user = process.env.GMAIL_USER;
   const pass = process.env.GMAIL_APP_PASSWORD;
   if (!user || !pass) {
     throw new Error("GMAIL credentials not configured");
   }
-  return nodemailer.createTransport({
+
+  cachedTransport = nodemailer.createTransport({
     service: "gmail",
     auth: { user, pass },
   });
+  return cachedTransport;
 }
 
 function safeHeaderValue(value: string): string {
