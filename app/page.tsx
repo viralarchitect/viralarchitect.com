@@ -3,6 +3,7 @@ import { ConsoleNav } from "@/components/ConsoleNav";
 import { ConsoleFooter } from "@/components/ConsoleFooter";
 import { OpsTicker } from "@/components/OpsTicker";
 import { Initialize } from "@/components/sections/Initialize";
+import { Hardware } from "@/components/sections/Hardware";
 import { Deployments } from "@/components/sections/Deployments";
 import { Comms } from "@/components/sections/Comms";
 import { Specs } from "@/components/sections/Specs";
@@ -19,6 +20,7 @@ export default function Home() {
       <ConsoleNav />
       <main>
         <Initialize />
+        <Hardware />
         <Deployments />
         <Comms />
         <Specs />

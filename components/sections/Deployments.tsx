@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import { TeleBar, UptimeCounter } from "@/components/Telemetry";
-import { AccentControl, NodeCommandButton } from "@/components/hardware/controls";
+import { NodeCommandButton } from "@/components/hardware/controls";
 
 type Node = {
   id: string;
@@ -103,17 +103,7 @@ export function Deployments() {
           <span className="slash">{"//"}</span> ACTIVE DEPLOYMENTS
         </h2>
         <span className="meta">
-          SEC.02 :: <HexCode /> :: 2 NODES TRACKED
-        </span>
-      </div>
-      <div className="ctrl-strip">
-        <span className="screw tl" aria-hidden="true" />
-        <span className="screw br" aria-hidden="true" />
-        <AccentControl />
-        <span className="strip-desc">
-          NODE BUS ACCENT CONTROL :: FLIP TO RE-THEME THE CONSOLE FROM{" "}
-          <b>GREEN / NOMINAL</b> TO <b>AMBER / CAUTION</b>. NON-CRITICAL CIRCUIT —
-          OPERATOR DISCRETION.
+          SEC.03 :: <HexCode /> :: 2 NODES TRACKED
         </span>
       </div>
       <div className="node-grid">

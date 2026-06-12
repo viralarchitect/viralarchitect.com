@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import { TypedText } from "@/components/TypedText";
-import { RotaryDial } from "@/components/hardware/RotaryDial";
 
 export function Initialize() {
   return (
@@ -40,22 +39,15 @@ export function Initialize() {
             </span>
           </p>
           <div className="hero-telemetry">
-            <RotaryDial
-              id="dial-load"
-              caption="DIAL-A · SYS LOAD"
-              ariaLabel="System load dial"
-              initial={42}
-              format="percent"
-              showBar
-              size="sm"
-              layout="row"
-            />
             <span className="hexline">
               NODE <HexCode /> :: RELAY <HexCode />
             </span>
             <span className="hexline">
               STATUS: <b>NOMINAL</b>
             </span>
+            <a className="hero-hw-link" href="#hardware">
+              → OPEN CONTROL PLATE
+            </a>
           </div>
         </div>
       </div>

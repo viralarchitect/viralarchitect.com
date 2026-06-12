@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import { UptimeYears } from "@/components/Telemetry";
-import { GridControl, SelfTestUnit } from "@/components/hardware/controls";
 
 const SPEC_ROWS: Array<{ k: string; v: string; sub: string }> = [
   {
@@ -35,7 +34,7 @@ export function Specs() {
           <span className="slash">{"//"}</span> SYSTEM SPECS
         </h2>
         <span className="meta">
-          SEC.04 :: <HexCode /> :: SPEC SHEET v15
+          SEC.05 :: <HexCode /> :: SPEC SHEET v15
         </span>
       </div>
       <Panel>
@@ -89,21 +88,10 @@ export function Specs() {
               <span className="hexline" aria-hidden="true">
                 <HexCode />
               </span>
-              <SelfTestUnit />
             </div>
           </div>
         </div>
       </Panel>
-      <div className="ctrl-strip" style={{ marginTop: 26, marginBottom: 0 }}>
-        <span className="screw tl" aria-hidden="true" />
-        <span className="screw br" aria-hidden="true" />
-        <GridControl />
-        <span className="strip-desc">
-          ENVIRONMENT BUS :: GRID PROJECTION SYSTEM. KILLS THE BACKGROUND
-          REFERENCE GRID FOR <b>DARK-ROOM OPS</b>. PURELY COSMETIC — THE
-          ARCHITECTURE DOES NOT CARE.
-        </span>
-      </div>
     </section>
   );
 }

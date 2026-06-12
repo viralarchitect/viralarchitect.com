@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
-import { RotaryDial } from "@/components/hardware/RotaryDial";
 import { useConsole } from "@/components/ConsoleProvider";
 import { pad, seeded } from "@/lib/format";
 
@@ -82,7 +81,7 @@ export function Comms() {
           <span className="slash">{"//"}</span> COMMS ARRAY
         </h2>
         <span className="meta">
-          SEC.03 :: <HexCode /> :: CHANNEL ENCRYPTED
+          SEC.04 :: <HexCode /> :: CHANNEL ENCRYPTED
         </span>
       </div>
       <Panel>
@@ -138,26 +137,18 @@ export function Comms() {
                 />
               ))}
             </div>
-            <div className="tuner">
-              <RotaryDial
-                id="dial-freq"
-                caption="DIAL-B · FREQ TUNER"
-                ariaLabel="Frequency tuner dial"
-                initial={84}
-                format="mhz"
-                size="sm"
-                layout="row"
-              />
-              <span className="freq-strip" style={{ flex: 1 }}>
-                <span>
-                  MODE <b>AES-256</b>
-                </span>
-                <span>
-                  GAIN <b>+12dB</b>
-                </span>
-                <span className="hexline">
-                  <HexCode />
-                </span>
+            <div className="freq-strip player-footer">
+              <span>
+                MODE <b>AES-256</b>
+              </span>
+              <span>
+                GAIN <b>+12dB</b>
+              </span>
+              <span>
+                TUNE <b>91.7 MHz</b>
+              </span>
+              <span className="hexline">
+                <HexCode />
               </span>
             </div>
           </div>
