@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { EmblemLogo } from "@/components/EmblemLogo";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import { TypedText } from "@/components/TypedText";
@@ -9,14 +9,7 @@ export function Initialize() {
     <section className="section hero-section" id="initialize" aria-label="Initialize — hero">
       <div className="hero-grid">
         <Panel className="emblem-wrap">
-          <Image
-            src="/Viral-Architect-Logo.svg"
-            width={400}
-            height={400}
-            alt="Viral Architect logo"
-            priority
-            unoptimized
-          />
+          <EmblemLogo />
           <div className="emblem-caption">
             <span>EMBLEM v1.0</span>
             <span className="hexline">
