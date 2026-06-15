@@ -1,86 +1,117 @@
 #!/usr/bin/env python3
-"""Generate rect-based emblem SVG from the source PSD (blue squares only)."""
+"""Generate the Viral Architect emblem SVG from a mathematical grid model."""
 
 from __future__ import annotations
 
+import math
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-import numpy as np
-from psd_tools import PSDImage
-
 ROOT = Path(__file__).resolve().parents[1]
-PSD_PATH = ROOT / "tmp" / "Viral Architect Logo.psd"
 OUT_PATH = ROOT / "public" / "Viral-Architect-Logo.svg"
 
-CANVAS = 1200
 VIEWBOX = 1009
-CELL = 60
-GRID_OFFSET_X = 23
-GRID_OFFSET_Y = 9
+SQUARE = 50
+PITCH = 57  # 50px square + 7px gap
+GAP = PITCH - SQUARE
 
 BRIGHT_FILL = "#00e5ff"
 DIM_FILL = "#126894"
 BG_FILL = "#050705"
 
-BRIGHT_LAYERS = ("V", "A", "V Bottom / A Top")
-DIM_LAYERS = (
-    "Darkest Blocks",
-    "Darker Blocks",
-    "Dark Blocks",
-    "Light Blocks",
-    "Lighter Blocks",
+# Line 4 (_X_) is the emblem center; X = always-on VA tiles, _ = intentional void.
+BRIGHT_PATTERN = (
+    "X_X",
+    "X_X",
+    "X_X",
+    "_X_",
+    "X_X",
+    "XXX",
+    "X_X",
 )
-SKIP_LAYERS = {"V-A (Green)", "V-A (Red)"}
+PATTERN_ROWS = len(BRIGHT_PATTERN)
+PATTERN_COLS = len(BRIGHT_PATTERN[0])
+CENTER_COL = 1
+CENTER_ROW = 3
+
+MIN_DIM_OPACITY = 0.012
+MAX_DIM_OPACITY = 0.16
+FALLOFF_POWER = 2.1
+MAX_FALLOFF_DIST = VIEWBOX * 0.52
 
 
-def layer_cells(layer, threshold: int = 64) -> dict[tuple[int, int], float]:
-    if not layer.visible or layer.name in SKIP_LAYERS:
-        return {}
+def pattern_origin() -> tuple[float, float]:
+    """Place the 7x3 VA grid so the center tile (_X_) sits on the canvas center."""
+    origin_x = VIEWBOX / 2 - CENTER_COL * PITCH - SQUARE / 2
+    origin_y = VIEWBOX / 2 - CENTER_ROW * PITCH - SQUARE / 2
+    return origin_x, origin_y
 
-    arr = np.array(layer.composite().convert("RGBA"))
-    origin_x, origin_y = layer.bbox[:2]
-    layer_opacity = layer.opacity / 255.0
-    height, width = arr.shape[:2]
-    cells: dict[tuple[int, int], float] = {}
 
-    for row in range((height + CELL - 1) // CELL):
-        for col in range((width + CELL - 1) // CELL):
-            y0 = row * CELL
-            x0 = col * CELL
-            patch = arr[y0 : y0 + CELL, x0 : x0 + CELL]
-            if patch.size == 0:
+def emblem_center(origin_x: float, origin_y: float) -> tuple[float, float]:
+    return (
+        origin_x + CENTER_COL * PITCH + SQUARE / 2,
+        origin_y + CENTER_ROW * PITCH + SQUARE / 2,
+    )
+
+
+def in_pattern(pr: int, pc: int) -> bool:
+    return 0 <= pr < PATTERN_ROWS and 0 <= pc < PATTERN_COLS
+
+
+def dim_opacity(
+    cell_center_x: float,
+    cell_center_y: float,
+    center_x: float,
+    center_y: float,
+    grid_col: int,
+    grid_row: int,
+) -> float:
+    distance = math.hypot(cell_center_x - center_x, cell_center_y - center_y)
+    t = max(0.0, 1.0 - distance / MAX_FALLOFF_DIST)
+    base = MIN_DIM_OPACITY + (MAX_DIM_OPACITY - MIN_DIM_OPACITY) * (t**FALLOFF_POWER)
+    # Deterministic shimmer so the outer field feels organic, not a flat gradient.
+    shimmer = 0.82 + ((grid_col * 17 + grid_row * 31) % 23) / 100
+    return base * shimmer
+
+
+def iter_grid(origin_x: float, origin_y: float):
+    min_col = math.floor((0 - SQUARE - origin_x) / PITCH)
+    max_col = math.ceil((VIEWBOX - origin_x) / PITCH)
+    min_row = math.floor((0 - SQUARE - origin_y) / PITCH)
+    max_row = math.ceil((VIEWBOX - origin_y) / PITCH)
+
+    for row in range(min_row, max_row + 1):
+        for col in range(min_col, max_col + 1):
+            x = origin_x + col * PITCH
+            y = origin_y + row * PITCH
+            if x + SQUARE <= 0 or y + SQUARE <= 0 or x >= VIEWBOX or y >= VIEWBOX:
                 continue
-
-            alpha = patch[:, :, 3].astype(float)
-            if alpha.max() <= threshold:
-                continue
-
-            global_x = origin_x + x0
-            global_y = origin_y + y0
-            grid_col = round((global_x - GRID_OFFSET_X) / CELL)
-            grid_row = round((global_y - GRID_OFFSET_Y) / CELL)
-            snapped_x = GRID_OFFSET_X + grid_col * CELL
-            snapped_y = GRID_OFFSET_Y + grid_row * CELL
-
-            if not (0 <= snapped_x <= CANVAS - CELL and 0 <= snapped_y <= CANVAS - CELL):
-                continue
-
-            strength = layer_opacity * (alpha.mean() / 255.0)
-            key = (snapped_x, snapped_y)
-            cells[key] = max(cells.get(key, 0.0), strength)
-
-    return cells
+            yield col, row, x, y
 
 
-def scale(value: float) -> float:
-    return round(value * VIEWBOX / CANVAS, 3)
+def build_svg() -> str:
+    origin_x, origin_y = pattern_origin()
+    center_x, center_y = emblem_center(origin_x, origin_y)
 
+    bright: list[tuple[float, float]] = []
+    dim: list[tuple[float, float, float]] = []
 
-def build_svg(bright: set[tuple[int, int]], dim: dict[tuple[int, int], float]) -> str:
+    for col, row, x, y in iter_grid(origin_x, origin_y):
+        pr = row
+        pc = col
+        if in_pattern(pr, pc):
+            if BRIGHT_PATTERN[pr][pc] == "X":
+                bright.append((x, y))
+            continue
+
+        cell_center_x = x + SQUARE / 2
+        cell_center_y = y + SQUARE / 2
+        opacity = dim_opacity(cell_center_x, cell_center_y, center_x, center_y, col, row)
+        if opacity >= MIN_DIM_OPACITY:
+            dim.append((x, y, opacity))
+
     svg_ns = "http://www.w3.org/2000/svg"
     ET.register_namespace("", svg_ns)
-
     root = ET.Element(
         f"{{{svg_ns}}}svg",
         {
@@ -93,27 +124,22 @@ def build_svg(bright: set[tuple[int, int]], dim: dict[tuple[int, int], float]) -
     ET.SubElement(
         root,
         f"{{{svg_ns}}}rect",
-        {
-            "width": str(VIEWBOX),
-            "height": str(VIEWBOX),
-            "fill": BG_FILL,
-        },
+        {"width": str(VIEWBOX), "height": str(VIEWBOX), "fill": BG_FILL},
     )
 
-    size = scale(CELL)
     dim_group = ET.SubElement(root, f"{{{svg_ns}}}g", {"id": "dim-grid"})
     bright_group = ET.SubElement(root, f"{{{svg_ns}}}g", {"id": "bright-letters"})
 
-    for (x, y), opacity in sorted(dim.items()):
+    for x, y, opacity in sorted(dim):
         ET.SubElement(
             dim_group,
             f"{{{svg_ns}}}rect",
             {
                 "class": "dim-square",
-                "x": str(scale(x)),
-                "y": str(scale(y)),
-                "width": str(size),
-                "height": str(size),
+                "x": f"{x:.3f}",
+                "y": f"{y:.3f}",
+                "width": str(SQUARE),
+                "height": str(SQUARE),
                 "fill": DIM_FILL,
                 "opacity": f"{opacity:.3f}",
             },
@@ -125,10 +151,10 @@ def build_svg(bright: set[tuple[int, int]], dim: dict[tuple[int, int], float]) -
             f"{{{svg_ns}}}rect",
             {
                 "class": "bright-square",
-                "x": str(scale(x)),
-                "y": str(scale(y)),
-                "width": str(size),
-                "height": str(size),
+                "x": f"{x:.3f}",
+                "y": f"{y:.3f}",
+                "width": str(SQUARE),
+                "height": str(SQUARE),
                 "fill": BRIGHT_FILL,
             },
         )
@@ -136,41 +162,22 @@ def build_svg(bright: set[tuple[int, int]], dim: dict[tuple[int, int], float]) -
     xml = ET.tostring(root, encoding="unicode")
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        f"<!-- Generated from {PSD_PATH.name}; blue squares only (no green composite). -->\n"
+        f"<!-- Mathematical emblem: {SQUARE}px squares, {PITCH}px pitch ({GAP}px gap). -->\n"
         + xml
         + "\n"
     )
 
 
 def main() -> None:
-    if not PSD_PATH.exists():
-        raise SystemExit(f"PSD not found: {PSD_PATH}")
-
-    psd = PSDImage.open(PSD_PATH)
-    layers = {layer.name: layer for layer in psd}
-
-    bright: set[tuple[int, int]] = set()
-    for name in BRIGHT_LAYERS:
-        layer = layers.get(name)
-        if layer is None:
-            continue
-        bright.update(layer_cells(layer, threshold=128).keys())
-
-    dim: dict[tuple[int, int], float] = {}
-    for name in DIM_LAYERS:
-        layer = layers.get(name)
-        if layer is None:
-            continue
-        for key, value in layer_cells(layer, threshold=32).items():
-            if key in bright:
-                continue
-            dim[key] = max(dim.get(key, 0.0), value)
-
-    svg = build_svg(bright, dim)
+    svg = build_svg()
     OUT_PATH.write_text(svg, encoding="utf-8")
+    origin_x, origin_y = pattern_origin()
+    bright_count = sum(line.count("X") for line in BRIGHT_PATTERN)
     print(f"Wrote {OUT_PATH}")
-    print(f"  bright squares: {len(bright)}")
-    print(f"  dim squares: {len(dim)}")
+    print(f"  bright VA tiles: {bright_count} ({PATTERN_ROWS}x{PATTERN_COLS} core)")
+    print(f"  pitch: {PITCH}px  square: {SQUARE}px  gap: {GAP}px")
+    print(f"  center tile: row {CENTER_ROW + 1}, col {CENTER_COL + 1}")
+    print(f"  pattern origin: ({origin_x:.1f}, {origin_y:.1f})")
 
 
 if __name__ == "__main__":
