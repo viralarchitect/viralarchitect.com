@@ -143,22 +143,27 @@ export function attachEmblemHover(container: HTMLElement, svg: SVGSVGElement): (
     const squares = dimSquares();
     if (!squares.length) return;
 
-    const batch = Math.max(1, Math.floor(squares.length * 0.12));
+    const active = squares.filter((el) => el.classList.contains(BLINK_CLASS)).length;
+    const maxConcurrent = 6;
+    if (active >= maxConcurrent) return;
+
+    const batch = Math.min(3, maxConcurrent - active);
     for (let i = 0; i < batch; i += 1) {
       const el = squares[Math.floor(Math.random() * squares.length)];
       if (el.classList.contains(BLINK_CLASS)) continue;
 
       const baseOpacity = parseOpacity(el.dataset.defaultOpacity);
+      // Keep pulses local: small opacity lift, never full cyan wash.
+      const boosted = Math.min(baseOpacity + 0.05 + Math.random() * 0.07, 0.28);
+      if (boosted <= baseOpacity + 0.02) continue;
+
       el.classList.add(BLINK_CLASS);
-      el.style.opacity = String(Math.min(1, baseOpacity + 0.25 + Math.random() * 0.45));
-      if (el.dataset.defaultFill !== undefined) {
-        el.setAttribute("fill", "#00e5ff");
-      }
+      el.style.opacity = String(boosted);
 
       const timeout = window.setTimeout(() => {
         restoreSquare(el);
         timeouts.delete(timeout);
-      }, 140 + Math.random() * 260);
+      }, 180 + Math.random() * 220);
       timeouts.add(timeout);
     }
   };
@@ -178,7 +183,7 @@ export function attachEmblemHover(container: HTMLElement, svg: SVGSVGElement): (
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     container.classList.add("is-hovering");
     pulseRandom();
-    intervalId = window.setInterval(pulseRandom, 85);
+    intervalId = window.setInterval(pulseRandom, 140);
   };
 
   const onFocusOut = (event: FocusEvent): void => {

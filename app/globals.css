@@ -670,17 +670,13 @@ h3 {
   height: 100%;
 }
 .emblem-logo svg .dim-square {
-  transition:
-    opacity 0.45s ease,
-    fill 0.45s ease;
+  transition: opacity 0.35s ease;
 }
 .emblem-logo svg .bright-square {
   transition: none;
 }
 .emblem-logo.is-hovering svg .dim-square.dim-square-blink {
-  opacity: 1;
-  fill: var(--cyan);
-  filter: brightness(1.35);
+  filter: brightness(1.15);
 }
 .emblem-caption {
   display: flex;
