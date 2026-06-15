@@ -670,13 +670,19 @@ h3 {
   height: 100%;
 }
 .emblem-logo svg .dim-square {
-  transition: opacity 0.35s ease;
+  transition:
+    opacity 0.2s ease,
+    fill 0.2s ease;
 }
 .emblem-logo svg .bright-square {
   transition: none;
 }
-.emblem-logo.is-hovering svg .dim-square.dim-square-blink {
-  filter: brightness(1.15);
+.emblem-logo svg #tendril-trails line {
+  pointer-events: none;
+  stroke-linecap: round;
+}
+.emblem-logo.is-hovering svg .dim-square.dim-square-tendril {
+  filter: drop-shadow(0 0 calc(5px * var(--style-glow)) rgba(var(--cyan-rgb), 0.55));
 }
 .emblem-caption {
   display: flex;
