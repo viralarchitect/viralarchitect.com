@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint . --max-warnings 0",
+    "lint:css": "stylelint \"**/*.css\"",
+    "lint:md": "markdownlint-cli2 \"**/*.md\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "generate:emblem": "python scripts/generate-emblem-svg.py"
   },
   "dependencies": {
@@ -22,6 +26,11 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "eslint-config-prettier": "^10.1.8",
+    "markdownlint-cli2": "^0.22.1",
+    "prettier": "^3.8.4",
+    "stylelint": "^17.13.0",
+    "stylelint-config-standard": "^40.0.0",
     "typescript": "^5"
   }
 }
