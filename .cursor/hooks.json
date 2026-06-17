@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterFileEdit": [
+      {
+        "command": "node .cursor/hooks/lint-edited-file.mjs",
+        "failClosed": true,
+        "timeout": 120
+      }
+    ]
+  }
+}
