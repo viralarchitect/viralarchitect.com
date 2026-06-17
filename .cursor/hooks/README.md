@@ -6,7 +6,7 @@ Project hooks gate agent file edits with lint and format checks before the agent
 
 | Hook | Script | Behavior |
 |------|--------|----------|
-| `afterFileEdit` | `lint-edited-file.ps1` | Runs the appropriate checks for the edited file type (see below). Returns `continue: false` until all checks pass. |
+| `afterFileEdit` | `lint-edited-file.mjs` | Runs the appropriate checks for the edited file type (see below). Returns `continue: false` until all checks pass. Invalid or missing hook input also blocks (fail-closed). |
 
 ## Checks by file type
 
@@ -22,14 +22,14 @@ Skipped paths and files: `node_modules/`, `.next/`, `out/`, `build/`, `.git/`, `
 ## npm scripts
 
 - `npm run lint` — ESLint
-- `npm run lint:css` — Stylelint
+- `npm run lint:css` — Stylelint (respects `.stylelintignore`)
 - `npm run lint:md` — markdownlint-cli2
 - `npm run format:check` — Prettier check
 - `npm run format` — Prettier write
 
-## Windows launchers
+## Cross-platform entrypoint
 
-Hook commands use hidden PowerShell so GUI-spawned child processes do not flash a console window. Inside scripts, subprocesses are invoked directly instead of wrapping them in `cmd /c`.
+The hook runs via `node .cursor/hooks/lint-edited-file.mjs`, which resolves local `node_modules/.bin` shims on Windows and POSIX hosts.
 
 ## Configuration
 

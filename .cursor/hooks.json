@@ -3,7 +3,7 @@
   "hooks": {
     "afterFileEdit": [
       {
-        "command": "powershell.exe -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File .\\.cursor\\hooks\\lint-edited-file.ps1",
+        "command": "node .cursor/hooks/lint-edited-file.mjs",
         "failClosed": true,
         "timeout": 120
       }
