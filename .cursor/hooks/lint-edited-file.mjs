@@ -71,7 +71,7 @@ function resolveEditedPath(filePath) {
   const absPath = isAbsolute(filePath) ? resolve(filePath) : resolve(projectRoot, filePath);
   const relToRoot = relative(projectRoot, absPath);
 
-  if (relToRoot.startsWith("..") || isAbsolute(relToRoot)) {
+  if (!relToRoot || isAbsolute(relToRoot) || relToRoot.split(/[/\\]/).includes("..")) {
     return null;
   }
 
