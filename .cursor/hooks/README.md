@@ -29,7 +29,7 @@ Skipped paths and files: `node_modules/`, `.next/`, `out/`, `build/`, `.git/`, `
 
 ## Cross-platform entrypoint
 
-The hook runs via `node .cursor/hooks/lint-edited-file.mjs`, which resolves local `node_modules/.bin` shims on Windows and POSIX hosts.
+The hook runs via `node .cursor/hooks/lint-edited-file.mjs`. Tooling is invoked by executing each package's bin script with `node` (for example `node node_modules/eslint/bin/eslint.js`), which works on Windows and POSIX hosts without shell-specific shims.
 
 ## Configuration
 

@@ -4,7 +4,7 @@
  */
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
-import { dirname, isAbsolute, join, resolve } from "node:path";
+import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -65,6 +65,17 @@ function shouldSkip(filePath) {
   }
 
   return false;
+}
+
+function resolveEditedPath(filePath) {
+  const absPath = isAbsolute(filePath) ? resolve(filePath) : resolve(projectRoot, filePath);
+  const relToRoot = relative(projectRoot, absPath);
+
+  if (relToRoot.startsWith("..") || isAbsolute(relToRoot)) {
+    return null;
+  }
+
+  return absPath;
 }
 
 function resolvePackageBin(packageName) {
@@ -130,9 +141,14 @@ if (typeof filePath !== "string" || !filePath.trim()) {
   );
 }
 
-const absPath = isAbsolute(filePath) ? filePath : join(projectRoot, filePath);
+const absPath = resolveEditedPath(filePath);
+if (!absPath) {
+  blockInput(
+    `Lint hook rejected path outside project root: \`${filePath}\`. Only files within the workspace can be linted.`,
+  );
+}
 
-if (shouldSkip(filePath)) {
+if (shouldSkip(normalizePath(relative(projectRoot, absPath)))) {
   allow();
 }
 
