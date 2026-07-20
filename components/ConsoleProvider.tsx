@@ -15,13 +15,13 @@ import { utcStamp } from "@/lib/format";
 export type AccentMode = "green" | "amber";
 
 export type StyleDials = {
-  /** DIAL-A — accent hue sweep */
+  /** FADER-A — accent hue sweep */
   chroma: number;
-  /** DIAL-B — phosphor glow intensity */
+  /** FADER-B — phosphor glow intensity */
   phosphor: number;
-  /** DIAL-C — secondary cyan channel */
+  /** FADER-C — secondary cyan channel */
   cyanAux: number;
-  /** DIAL-D — ambient wash / background warmth */
+  /** FADER-D — ambient wash / background warmth */
   ambient: number;
 };
 

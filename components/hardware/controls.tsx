@@ -10,7 +10,7 @@ import {
   useConsole,
   type StyleDials,
 } from "@/components/ConsoleProvider";
-import { RotaryDial } from "@/components/hardware/RotaryDial";
+import { StyleFader } from "@/components/hardware/StyleFader";
 import { ToggleSwitch } from "@/components/hardware/ToggleSwitch";
 import { PushButton } from "@/components/hardware/PushButton";
 import { chromaHue, hslToRgb, rgbString, type Rgb } from "@/lib/color";
@@ -88,49 +88,56 @@ export function ScanControl() {
 
 type DialKey = keyof StyleDials;
 
-const DIAL_CONFIG: Array<{
+const FADER_CONFIG: Array<{
   key: DialKey;
   id: string;
   caption: string;
   ariaLabel: string;
   format: "percent" | "hex";
+  track: "intensity" | "spectrum";
+  showBar?: boolean;
   tag: string;
 }> = [
   {
     key: "chroma",
-    id: "dial-chroma",
-    caption: "DIAL-A · CHROMA",
-    ariaLabel: "Chroma hue dial",
+    id: "fader-chroma",
+    caption: "FADER-A · CHROMA",
+    ariaLabel: "Chroma hue fader",
     format: "hex",
+    track: "spectrum",
     tag: "CHROMA",
   },
   {
     key: "phosphor",
-    id: "dial-phosphor",
-    caption: "DIAL-B · PHOSPHOR",
-    ariaLabel: "Phosphor glow dial",
+    id: "fader-phosphor",
+    caption: "FADER-B · PHOSPHOR",
+    ariaLabel: "Phosphor glow fader",
     format: "percent",
+    track: "intensity",
+    showBar: true,
     tag: "PHOSPHOR",
   },
   {
     key: "cyanAux",
-    id: "dial-cyan",
-    caption: "DIAL-C · CYAN AUX",
-    ariaLabel: "Cyan auxiliary dial",
+    id: "fader-cyan",
+    caption: "FADER-C · CYAN AUX",
+    ariaLabel: "Cyan auxiliary fader",
     format: "percent",
+    track: "intensity",
     tag: "CYAN AUX",
   },
   {
     key: "ambient",
-    id: "dial-ambient",
-    caption: "DIAL-D · AMBIENT",
-    ariaLabel: "Ambient wash dial",
+    id: "fader-ambient",
+    caption: "FADER-D · AMBIENT",
+    ariaLabel: "Ambient wash fader",
     format: "percent",
+    track: "intensity",
     tag: "AMBIENT",
   },
 ];
 
-function dialReadout(key: DialKey, value: number): string {
+function faderReadout(key: DialKey, value: number): string {
   switch (key) {
     case "chroma": {
       const rgb = hslToRgb(chromaHue(value), 100, 50);
@@ -147,35 +154,41 @@ function dialReadout(key: DialKey, value: number): string {
       return `${value}%`;
     default: {
       const exhaustive: never = key;
-      throw new Error(`Unhandled dial key: ${exhaustive}`);
+      throw new Error(`Unhandled fader key: ${exhaustive}`);
     }
   }
 }
 
-/** Style dials — live color bus controls wired to ConsoleProvider. */
-export function StyleDialControls() {
+/** Style faders — live color bus controls wired to ConsoleProvider. */
+export function StyleFaderControls() {
   const { styleDials, setStyleDial, log } = useConsole();
 
   return (
     <>
-      {DIAL_CONFIG.map((dial) => (
-        <RotaryDial
-          key={dial.id}
-          id={dial.id}
-          caption={dial.caption}
-          ariaLabel={dial.ariaLabel}
-          value={styleDials[dial.key]}
-          format={dial.format}
-          showBar={dial.key === "phosphor"}
-          size="sm"
-          onValue={(v) => {
-            setStyleDial(dial.key, v);
-          }}
-          onRelease={(v) => {
-            log("DIAL", `${dial.tag} LOCKED → ${dialReadout(dial.key, v)}`);
-          }}
-        />
-      ))}
+      {FADER_CONFIG.map((fader) => {
+        const value = styleDials[fader.key];
+        return (
+          <StyleFader
+            key={fader.id}
+            id={fader.id}
+            caption={fader.caption}
+            ariaLabel={fader.ariaLabel}
+            value={value}
+            format={fader.format}
+            displayValue={
+              fader.key === "chroma" ? faderReadout("chroma", value) : undefined
+            }
+            track={fader.track}
+            showBar={fader.showBar}
+            onValue={(v) => {
+              setStyleDial(fader.key, v);
+            }}
+            onRelease={(v) => {
+              log("FADER", `${fader.tag} LOCKED → ${faderReadout(fader.key, v)}`);
+            }}
+          />
+        );
+      })}
     </>
   );
 }
