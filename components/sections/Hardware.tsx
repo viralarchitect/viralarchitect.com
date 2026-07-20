@@ -11,7 +11,7 @@ import {
   GridControl,
   ResetControl,
   ScanControl,
-  StyleDialControls,
+  StyleFaderControls,
 } from "@/components/hardware/controls";
 
 export function Hardware() {
@@ -60,13 +60,13 @@ export function Hardware() {
           </div>
 
           <div className="hw-controls-row">
-            <div className="hw-group hw-group-dials">
-              <span className="label">ROTARY CONTROL — LIVE COLOR BUS</span>
-              <div className="hw-row dials">
-                <StyleDialControls />
+            <div className="hw-group hw-group-faders">
+              <span className="label">FADER BANK — LIVE COLOR BUS</span>
+              <div className="hw-row faders">
+                <StyleFaderControls />
               </div>
               <p className="hw-hint">
-                DRAG · SCROLL · ARROW KEYS — DIALS REPAINT THE CONSOLE IN REAL TIME
+                DRAG · TAP · ARROW KEYS — FADERS REPAINT THE CONSOLE IN REAL TIME
               </p>
             </div>
 
