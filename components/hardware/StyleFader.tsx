@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import type { CSSProperties } from "react";
 import { clamp, pad } from "@/lib/format";
 
 /** Serializable readout formats (server components can't pass functions). */
@@ -55,15 +55,9 @@ export function StyleFader({
   onValue,
   onRelease,
 }: StyleFaderProps) {
-  const loadbarRef = useRef<HTMLSpanElement>(null);
-  const fillRef = useRef<HTMLSpanElement>(null);
   const rounded = Math.round(clamp(value, 0, 100));
   const readout = displayValue ?? formatValue(format, rounded);
-
-  useEffect(() => {
-    loadbarRef.current?.style.setProperty("--w", `${rounded}%`);
-    fillRef.current?.style.setProperty("--w", `${rounded}%`);
-  }, [rounded]);
+  const wStyle = { "--w": `${rounded}%` } as CSSProperties;
 
   function commit(raw: number) {
     onValue(Math.round(clamp(raw, 0, 100)));
@@ -79,8 +73,8 @@ export function StyleFader({
       </div>
       <div className="fader-track-wrap">
         <span
-          ref={fillRef}
           className={`fader-fill${track === "spectrum" ? " spectrum" : ""}`}
+          style={wStyle}
           aria-hidden="true"
         />
         <input
@@ -117,7 +111,7 @@ export function StyleFader({
         />
       </div>
       {showBar && (
-        <span className="loadbar" ref={loadbarRef}>
+        <span className="loadbar" style={wStyle}>
           <span className="loadbar-fill" />
         </span>
       )}
