@@ -21,7 +21,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Cursor Cloud specific instructions
 
-- Runs on Node 22 with npm (uses `package-lock.json`). Scripts live in `package.json`: `dev`, `build`, `start`, `lint`, `lint:css`, `lint:md`, `format`.
+- Requires Node >=22 <23 with npm (uses `package-lock.json`). Scripts live in `package.json`: `dev`, `build`, `start`, `lint`, `lint:css`, `lint:md`, `format`.
 - Dev server: `npm run dev` serves the single page on `http://localhost:3000` (Next.js 16 Turbopack). Prefer this over `npm run build`/`start` for development.
 - The Uplink contact form (`app/api/uplink/route.ts`) needs the Turnstile + Gmail env vars above. Without them the form renders and accepts input but shows `WARN :: TURNSTILE SITE KEY UNCONFIGURED` and cannot submit — this is expected in a bare dev environment; the rest of the site is fully functional without any secrets.
 - Lint gotchas (pre-existing on `main`, not environment problems): `npm run lint` fails under `--max-warnings 0` due to an `import/no-anonymous-default-export` warning in `stylelint.config.mjs`, and `npm run lint:md` globs into `node_modules` and reports errors from dependency READMEs. `npm run lint:css` passes clean.
