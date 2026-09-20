@@ -2,7 +2,7 @@ import { EmblemLogo } from "@/components/EmblemLogo";
 import { Panel } from "@/components/Panel";
 import { HexCode } from "@/components/HexCode";
 import { TypedText } from "@/components/TypedText";
-import { SOCIAL_LINKS } from "@/content/profile";
+import { PROFILE, SOCIAL_LINKS } from "@/content/profile";
 
 export function Initialize() {
   return (
@@ -13,26 +13,32 @@ export function Initialize() {
           <div className="emblem-caption">
             <span>EMBLEM v1.0</span>
             <span className="hexline">
-              <HexCode />
+              <HexCode ticking={false} />
             </span>
             <span>1:1 LOCKED</span>
           </div>
         </Panel>
         <div className="hero-copy">
-          <p className="hero-tagline">
-            {"// INITIALIZE :: PAYLOAD IDENTITY CONFIRMED"}
-          </p>
+          <p className="hero-tagline">{PROFILE.heroIdentity}</p>
           <h1>
-            <span className="glitch">VIRAL</span>
+            <span>VIRAL</span>
             <br />
-            <span className="accent glitch">ARCHITECT</span>
+            <span className="accent">ARCHITECT</span>
           </h1>
           <p className="hero-sub">
-            <TypedText text={"15 years keeping enterprise lights on.\nBuilding automation that kills toil.\nShipping SaaS that earns revenue."} />
+            <TypedText text={PROFILE.heroStatement} />
             <span className="blink-cursor" aria-hidden="true">
               _
             </span>
           </p>
+          <div className="hero-actions">
+            <a className="primary-link" href="#deployments">
+              View my work ↓
+            </a>
+            <a className="text-link" href="#uplink">
+              Contact me ↗
+            </a>
+          </div>
           <div className="hero-telemetry">
             <a
               className="hexline hero-social-link"
@@ -41,7 +47,7 @@ export function Initialize() {
               rel="noopener noreferrer"
               aria-label="Viral Architect on Facebook"
             >
-              UPLINK :: FACEBOOK :: <HexCode />
+              FACEBOOK :: <HexCode ticking={false} />
             </a>
             <a
               className="hexline hero-social-link"
@@ -50,7 +56,7 @@ export function Initialize() {
               rel="noopener noreferrer"
               aria-label="Viral Architect on X"
             >
-              RELAY :: X :: <HexCode />
+              X :: <HexCode ticking={false} />
             </a>
             <a
               className="hexline hero-social-link"
@@ -59,7 +65,7 @@ export function Initialize() {
               rel="noopener noreferrer"
               aria-label="Nicholas King on LinkedIn"
             >
-              STATUS :: LINKEDIN :: <b>ONLINE</b>
+              LINKEDIN ↗
             </a>
           </div>
         </div>

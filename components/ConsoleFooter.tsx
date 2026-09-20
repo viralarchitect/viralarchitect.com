@@ -1,17 +1,11 @@
-import { HexCode } from "@/components/HexCode";
-
+import { PROFILE } from "@/content/profile";
 export function ConsoleFooter() {
   return (
     <footer className="console-footer">
       <span>
-        © 2026 <b>NICHOLAS KING</b> {"// VIRAL ARCHITECT"}
+        © 2026 {PROFILE.name} <span className="accent">{"//"}</span> Viral Architect
       </span>
-      <span>
-        BUILD <HexCode digits={6} ticking={false} />
-      </span>
-      <span>
-        <span className="dot green" /> ALL SYSTEMS NOMINAL
-      </span>
+      <a href="#initialize">Back to top ↑</a>
     </footer>
   );
 }

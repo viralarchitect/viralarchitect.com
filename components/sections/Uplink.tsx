@@ -1,243 +1,148 @@
 "use client";
-
 import { useRef, useState } from "react";
-import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { Panel } from "@/components/Panel";
-import { HexCode } from "@/components/HexCode";
-import { useConsole } from "@/components/ConsoleProvider";
 import { TurnstileWidget, resetTurnstileWidget } from "@/components/TurnstileWidget";
-import { randHex } from "@/lib/format";
-import {
-  UPLINK_EMAIL_RE,
-  UPLINK_MAX_CALLSIGN,
-  UPLINK_MAX_MESSAGE,
-} from "@/lib/uplink-validation";
+import { UPLINK } from "@/content/profile";
+import { UPLINK_EMAIL_RE, UPLINK_MAX_CALLSIGN, UPLINK_MAX_MESSAGE } from "@/lib/uplink-validation";
 
-type LogState =
-  | { kind: "empty" }
-  | { kind: "error"; msg: string }
-  | { kind: "transmitting"; lines: string[] }
-  | { kind: "sent"; lines: string[]; ack: string };
-
+type Status = { kind: "idle" | "sending" | "sent" | "error"; message: string };
 export function Uplink() {
-  const { log, blip } = useConsole();
-  const [logState, setLogState] = useState<LogState>({ kind: "empty" });
-  const [turnstileToken, setTurnstileToken] = useState("");
+  const [status, setStatus] = useState<Status>({ kind: "idle", message: "" });
+  const [token, setToken] = useState("");
   const busy = useRef(false);
-
-  function clearTurnstile() {
-    setTurnstileToken("");
+  function clearToken() {
+    setToken("");
     resetTurnstileWidget();
   }
-
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     if (busy.current) return;
-    blip(1100);
-
-    const form = e.currentTarget;
+    const form = event.currentTarget;
     const data = new FormData(form);
     const callsign = String(data.get("callsign") ?? "").trim();
     const freq = String(data.get("freq") ?? "").trim();
     const msg = String(data.get("msg") ?? "").trim();
-
     if (!callsign || !freq || !msg) {
-      setLogState({
-        kind: "error",
-        msg: "ERROR :: TRANSMISSION INCOMPLETE — ALL FIELDS REQUIRED",
-      });
+      setStatus({ kind: "error", message: "Please fill in your name, email, and message." });
       return;
     }
     if (!UPLINK_EMAIL_RE.test(freq)) {
-      setLogState({
+      setStatus({ kind: "error", message: "Please enter a valid email address." });
+      return;
+    }
+    if (callsign.length > UPLINK_MAX_CALLSIGN || msg.length > UPLINK_MAX_MESSAGE) {
+      setStatus({ kind: "error", message: "Please shorten your name or message and try again." });
+      return;
+    }
+    if (!token) {
+      setStatus({
         kind: "error",
-        msg: "ERROR :: RETURN FREQ MALFORMED — EXPECTED OPERATOR@DOMAIN.TLD",
+        message: "Please complete the spam check, or use the email link above.",
       });
       return;
     }
-    if (callsign.length > UPLINK_MAX_CALLSIGN) {
-      setLogState({
-        kind: "error",
-        msg: "ERROR :: CALLSIGN EXCEEDS MAX LENGTH",
-      });
-      return;
-    }
-    if (msg.length > UPLINK_MAX_MESSAGE) {
-      setLogState({
-        kind: "error",
-        msg: "ERROR :: MESSAGE PAYLOAD EXCEEDS MAX LENGTH",
-      });
-      return;
-    }
-    if (!turnstileToken) {
-      setLogState({
-        kind: "error",
-        msg: "ERROR :: BOT CHECK INCOMPLETE — RETRY CHALLENGE",
-      });
-      return;
-    }
-
     busy.current = true;
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const sequence = [
-      "VALIDATING PAYLOAD........... OK",
-      "ENCRYPTING PAYLOAD [AES-256]. OK",
-      "ROUTING VIA RELAY-07......... OK",
-      `TRANSMISSION QUEUED :: ACK ${randHex(4)}`,
-    ];
-    const lines: string[] = [];
-    for (const line of sequence) {
-      lines.push(line);
-      setLogState({ kind: "transmitting", lines: [...lines] });
-      await new Promise((r) => setTimeout(r, reducedMotion ? 10 : 260));
-    }
-
-    let res: Response;
+    setStatus({ kind: "sending", message: "Sending your message…" });
     try {
-      res = await fetch("/api/uplink", {
+      const response = await fetch("/api/uplink", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           callsign,
           freq,
           msg,
-          turnstileToken,
+          turnstileToken: token,
           _checksum: String(data.get("_checksum") ?? ""),
         }),
       });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || !payload?.ack) {
+        setStatus({
+          kind: "error",
+          message:
+            response.status === 403
+              ? "The spam check expired. Please try it again, or email me directly."
+              : "Your message could not be sent. Please try again, or email me directly.",
+        });
+      } else {
+        setStatus({ kind: "sent", message: "Message sent. Thanks for getting in touch." });
+        form.reset();
+      }
     } catch {
-      setLogState({
+      setStatus({
         kind: "error",
-        msg: "ERROR :: RELAY FAILURE — CHANNEL BUSY",
+        message: "Could not connect. Please try again, or email me directly.",
       });
-      clearTurnstile();
+    } finally {
       busy.current = false;
-      return;
+      clearToken();
     }
-
-    const payload = (await res.json().catch(() => null)) as {
-      ack?: string;
-      error?: string;
-    } | null;
-
-    if (!res.ok || !payload?.ack) {
-      setLogState({
-        kind: "error",
-        msg:
-          payload?.error ??
-          (res.status === 403
-            ? "ERROR :: BOT CHECK FAILED — RETRY CHALLENGE"
-            : "ERROR :: RELAY FAILURE — CHANNEL BUSY"),
-      });
-      clearTurnstile();
-      busy.current = false;
-      return;
-    }
-
-    setLogState({
-      kind: "sent",
-      lines,
-      ack: payload.ack,
-    });
-    log("TX", `UPLINK SEQUENCE COMPLETE :: OPERATOR ${callsign.toUpperCase()}`);
-    clearTurnstile();
-    busy.current = false;
   }
-
   return (
-    <CollapsibleSection
-      id="uplink"
-      ariaLabel="Secure uplink — contact"
-      title={
-        <>
-          <span className="slash">{"//"}</span> SECURE UPLINK
-        </>
-      }
-      meta={
-        <>
-          SEC.06 :: <HexCode /> :: TX READY<span className="blink-cursor">_</span>
-        </>
-      }
-    >
-      <Panel className="uplink-panel" innerClassName="black">
-        <p className="hexline uplink-lede">
-          UPLINK TERMINAL :: ALL TRAFFIC ENCRYPTED :: <HexCode />
-          <span className="blink-cursor">_</span>
-        </p>
-        <form className="uplink-form" onSubmit={onSubmit} noValidate>
-          <input
-            className="uplink-honeypot"
-            type="text"
-            name="_checksum"
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden="true"
-          />
-          <div className="prompt-line">
-            <label htmlFor="f-callsign">CALLSIGN:</label>
+    <section className="section" id="uplink" aria-labelledby="contact-heading">
+      <div className="section-head">
+        <h2 id="contact-heading">
+          <span className="slash">{"//"}</span> CONTACT
+        </h2>
+        <span className="meta">03 / CONNECT</span>
+      </div>
+      <Panel className="uplink-panel">
+        <div className="contact-layout">
+          <div>
+            <h3>Let’s talk.</h3>
+            <p>Have a project, a systems challenge, or a question about my work?</p>
+            <a className="contact-email" href={`mailto:${UPLINK.displayEmail}`}>
+              {UPLINK.displayEmail} ↗
+            </a>
+          </div>
+          <form className="uplink-form" onSubmit={onSubmit} noValidate>
             <input
-              id="f-callsign"
-              name="callsign"
+              className="uplink-honeypot"
               type="text"
-              autoComplete="name"
-              spellCheck={false}
-              placeholder="OPERATOR NAME"
+              name="_checksum"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
             />
-          </div>
-          <div className="prompt-line">
-            <label htmlFor="f-freq">RETURN FREQ:</label>
-            <input
-              id="f-freq"
-              name="freq"
-              type="email"
-              autoComplete="email"
-              spellCheck={false}
-              placeholder="OPERATOR@DOMAIN.TLD"
-            />
-          </div>
-          <div className="prompt-line">
-            <label htmlFor="f-msg">ENTER TRANSMISSION:</label>
-            <textarea
-              id="f-msg"
-              name="msg"
-              spellCheck={false}
-              placeholder="MESSAGE PAYLOAD..."
-            />
-          </div>
-          <TurnstileWidget
-            onToken={setTurnstileToken}
-            onError={clearTurnstile}
-            onExpire={clearTurnstile}
-          />
-          <div className="uplink-actions">
-            <button
-              className="execute-btn"
-              type="submit"
-              disabled={!turnstileToken}
-            >
-              [ EXECUTE ]
-            </button>
-            <span className="hexline">
-              ROUTE :: RELAY-07 :: <HexCode />
-            </span>
-          </div>
-          <pre className="uplink-log" aria-live="polite">
-            {logState.kind === "error" && (
-              <span className="err">{logState.msg}</span>
+            <div className="prompt-line">
+              <label htmlFor="f-callsign">Name</label>
+              <input
+                id="f-callsign"
+                name="callsign"
+                autoComplete="name"
+                maxLength={UPLINK_MAX_CALLSIGN}
+                required
+              />
+            </div>
+            <div className="prompt-line">
+              <label htmlFor="f-freq">Email</label>
+              <input id="f-freq" name="freq" type="email" autoComplete="email" required />
+            </div>
+            <div className="prompt-line">
+              <label htmlFor="f-msg">Message</label>
+              <textarea id="f-msg" name="msg" maxLength={UPLINK_MAX_MESSAGE} required />
+            </div>
+            <TurnstileWidget onToken={setToken} onError={clearToken} onExpire={clearToken} />
+            <div className="uplink-actions">
+              <button
+                className="execute-btn"
+                type="submit"
+                disabled={!token || status.kind === "sending"}
+              >
+                {status.kind === "sending" ? "Sending…" : "Send message ↗"}
+              </button>
+            </div>
+            {!token && status.kind !== "sent" && (
+              <p className="form-help">
+                Waiting for spam verification. You can also email me directly.
+              </p>
             )}
-            {(logState.kind === "transmitting" || logState.kind === "sent") &&
-              logState.lines.join("\n")}
-            {logState.kind === "sent" && (
-              <>
-                {"\n\nTRANSMISSION DELIVERED :: ACK "}
-                {logState.ack}
-              </>
-            )}
-          </pre>
-        </form>
+            <p className={`form-status ${status.kind}`} role="status">
+              {status.message}
+            </p>
+          </form>
+        </div>
       </Panel>
-    </CollapsibleSection>
+    </section>
   );
 }

@@ -1,85 +1,35 @@
-import Image from "next/image";
-import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { Panel } from "@/components/Panel";
-import { HexCode } from "@/components/HexCode";
-import { TeleBar, UptimeCounter } from "@/components/Telemetry";
-import { NodeCommandButton } from "@/components/hardware/controls";
-import { DEPLOYMENT_NODES, type DeploymentNode } from "@/content/profile";
-
-function NodeCard({ node }: { node: DeploymentNode }) {
-  return (
-    <Panel className="node">
-      <div className="node-head">
-        <div>
-          <span className="node-id">
-            {node.id} :: {node.flag}
-          </span>
-          <h3>{node.name}</h3>
-          <span className="node-period">{node.period}</span>
-        </div>
-        <span className={`node-status ${node.statusClass}`}>
-          <span className={`dot ${node.dotClass} blink`} />
-          {node.status}
-        </span>
-      </div>
-      <div className="node-screen">
-        <Image src={node.img} width={800} height={450} alt={node.imgAlt} />
-      </div>
-      <p className="node-desc">
-        <span className="tag">&gt;&gt;</span> {node.desc}
-      </p>
-      <ul className="node-highlights">
-        {node.highlights.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-      <div className="node-tele" aria-hidden="true">
-        <span className="tele-cell">
-          CPU <TeleBar initial={node.tele[0]} />
-        </span>
-        <span className="tele-cell">
-          MEM <TeleBar initial={node.tele[1]} />
-        </span>
-        <span className="tele-cell">
-          NET <TeleBar initial={node.tele[2]} />
-        </span>
-      </div>
-      <div className="node-foot">
-        <span>
-          UPTIME <UptimeCounter offset={node.uptimeOffset} />
-        </span>
-        <NodeCommandButton command={node.command} />
-        <span>
-          REV <HexCode />
-        </span>
-      </div>
-    </Panel>
-  );
-}
-
+import { FEATURED_WORK } from "@/content/profile";
 export function Deployments() {
-  const nodeCount = DEPLOYMENT_NODES.length;
-
   return (
-    <CollapsibleSection
-      id="deployments"
-      ariaLabel="Active deployments — professional experience and projects"
-      title={
-        <>
-          <span className="slash">{"//"}</span> ACTIVE DEPLOYMENTS
-        </>
-      }
-      meta={
-        <>
-          SEC.03 :: <HexCode /> :: {nodeCount} NODES TRACKED
-        </>
-      }
-    >
-      <div className="node-grid">
-        {DEPLOYMENT_NODES.map((node) => (
-          <NodeCard key={node.id} node={node} />
-        ))}
+    <section className="section" id="deployments" aria-labelledby="work-heading">
+      <div className="section-head">
+        <h2 id="work-heading">
+          <span className="slash">{"//"}</span> SELECTED WORK
+        </h2>
+        <span className="meta">01 / BUILD</span>
       </div>
-    </CollapsibleSection>
+      <Panel className="featured-work">
+        <div className="project-layout">
+          <div>
+            <p className="eyebrow">{FEATURED_WORK.category}</p>
+            <h3>{FEATURED_WORK.name}</h3>
+            <p className="project-summary">{FEATURED_WORK.description}</p>
+            <p className="project-stack">{FEATURED_WORK.stack}</p>
+            <a className="text-link" href="#uplink">
+              Ask me about this project ↗
+            </a>
+          </div>
+          <div className="project-outcomes">
+            {FEATURED_WORK.outcomes.map((item) => (
+              <div key={item.title}>
+                <h4>{item.title}</h4>
+                <p>{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Panel>
+    </section>
   );
 }

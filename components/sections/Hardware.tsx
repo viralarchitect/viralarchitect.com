@@ -7,7 +7,6 @@ import {
   AccentBusStatus,
   AccentControl,
   ChromaticPreview,
-  CommandKeys,
   GridControl,
   ResetControl,
   ScanControl,
@@ -26,11 +25,7 @@ export function Hardware() {
           <span className="slash">{"//"}</span> INTERACTIVE HARDWARE
         </>
       }
-      meta={(expanded) => (
-        <>
-          SEC.02 :: <HexCode /> :: {expanded ? "TACTILE BUS ONLINE" : "PLATE STOWED"}
-        </>
-      )}
+      meta={(expanded) => <>{expanded ? "APPEARANCE CONTROLS" : "OPTIONAL / APPEARANCE"}</>}
     >
       <Panel className="hw-plate">
         <div className="hw-head">
@@ -68,13 +63,6 @@ export function Hardware() {
               <p className="hw-hint">
                 DRAG · TAP · ARROW KEYS — FADERS REPAINT THE CONSOLE IN REAL TIME
               </p>
-            </div>
-
-            <div className="hw-group hw-group-keys">
-              <span className="label">COMMAND KEYS</span>
-              <div className="hw-row keys">
-                <CommandKeys />
-              </div>
             </div>
           </div>
         </div>

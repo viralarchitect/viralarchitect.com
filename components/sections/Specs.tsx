@@ -1,86 +1,50 @@
 import Image from "next/image";
-import { CollapsibleSection } from "@/components/CollapsibleSection";
-import { Panel } from "@/components/Panel";
-import { HexCode } from "@/components/HexCode";
-import { UptimeYears } from "@/components/Telemetry";
-import { PROFILE, SPEC_ROWS } from "@/content/profile";
-
+import { PROFILE, SKILL_GROUPS, EXPERIENCE } from "@/content/profile";
 export function Specs() {
   return (
-    <CollapsibleSection
-      id="specs"
-      ariaLabel="System specs — background and resume"
-      title={
-        <>
-          <span className="slash">{"//"}</span> SYSTEM SPECS
-        </>
-      }
-      meta={
-        <>
-          SEC.05 :: <HexCode /> :: SPEC SHEET v16
-        </>
-      }
-    >
-      <Panel>
-        <div className="specs-grid">
-          <div className="bio-badge">
-            <div className="bio-frame">
-              <Image
-                src="/Nicholas-King-Photo.jpg"
-                width={200}
-                height={200}
-                alt={`Portrait of ${PROFILE.name}`}
-              />
-              <span className="bio-scan" aria-hidden="true" />
-            </div>
-            <div className="bio-data">
-              SUBJECT :: <b>{PROFILE.name.toUpperCase()}</b>
-              <br />
-              ROLE :: <b>{PROFILE.role.toUpperCase()}</b>
-              <br />
-              CLEARANCE :: <b>LEVEL-5 / ROOT</b>
-              <br />
-              BADGE :: <b>{PROFILE.badge}</b>
-              <br />
-              SCAN :: <b>VERIFIED ✓</b>
-            </div>
-          </div>
-          <div>
-            <p className="spec-intro">{PROFILE.summary}</p>
-            <table className="spec-table">
-              <tbody>
-                {SPEC_ROWS.map((row) => (
-                  <tr key={row.k}>
-                    <th scope="row">{row.k}</th>
-                    <td>
-                      {row.v}
-                      {row.k === "UPTIME" ? (
-                        <UptimeYears startYear={PROFILE.careerStartYear} />
-                      ) : (
-                        <small>{row.sub}</small>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="micro-readouts">
-              <span aria-hidden="true">
-                CORE TEMP <b>36.8°C</b>
-              </span>
-              <span aria-hidden="true">
-                VOLTAGE <b>3.3V OK</b>
-              </span>
-              <span aria-hidden="true">
-                FAN <b>2400 RPM</b>
-              </span>
-              <span className="hexline" aria-hidden="true">
-                <HexCode />
-              </span>
-            </div>
+    <section className="section" id="specs" aria-labelledby="about-heading">
+      <div className="section-head">
+        <h2 id="about-heading">
+          <span className="slash">{"//"}</span> ABOUT & EXPERIENCE
+        </h2>
+        <span className="meta">02 / BACKGROUND</span>
+      </div>
+      <div className="about-layout">
+        <div className="about-intro">
+          <Image
+            className="portrait"
+            src="/Nicholas-King-Photo.jpg"
+            width={160}
+            height={160}
+            alt={`Portrait of ${PROFILE.name}`}
+          />
+          <h3>{PROFILE.name}</h3>
+          <p>{PROFILE.summary}</p>
+          <div className="skill-groups">
+            {SKILL_GROUPS.map((group) => (
+              <div key={group.title}>
+                <h4>{group.title}</h4>
+                <p>{group.tools}</p>
+              </div>
+            ))}
           </div>
         </div>
-      </Panel>
-    </CollapsibleSection>
+        <div className="experience-list">
+          {EXPERIENCE.map((job) => (
+            <article key={job.company}>
+              <p className="eyebrow">{job.period}</p>
+              <h3>{job.company}</h3>
+              <p className="experience-role">{job.role}</p>
+              <p>{job.description}</p>
+            </article>
+          ))}
+          <p className="education-note">
+            B.S. Network Technologies · Western Illinois University
+            <br />
+            SRE Practitioner · Microsoft Azure Fundamentals
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }
