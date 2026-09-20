@@ -36,6 +36,29 @@ export function Specs() {
               <h3>{job.company}</h3>
               <p className="experience-role">{job.role}</p>
               <p>{job.description}</p>
+              <p className="skill-hint">Select a skill to see how I used it.</p>
+              <ul className="experience-skills" aria-label={`Skills used at ${job.company}`}>
+                {job.skills.map((skill) => (
+                  <li key={skill.name}>
+                    <details>
+                      <summary>{skill.name}</summary>
+                      <div className="skill-details">
+                        {skill.details.map((block, index) =>
+                          "text" in block ? (
+                            <p key={index}>{block.text}</p>
+                          ) : (
+                            <ul key={index}>
+                              {block.items.map((item) => (
+                                <li key={item}>{item}</li>
+                              ))}
+                            </ul>
+                          ),
+                        )}
+                      </div>
+                    </details>
+                  </li>
+                ))}
+              </ul>
             </article>
           ))}
           <p className="education-note">

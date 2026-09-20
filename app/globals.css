@@ -2243,6 +2243,65 @@ h3 {
   color: var(--fg-hi);
   margin-bottom: 12px;
 }
+.experience-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 0;
+  list-style: none;
+}
+.experience-skills > li {
+  max-width: 100%;
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
+  background: rgba(var(--accent-rgb), 0.04);
+  color: var(--fg-hi);
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.experience-skills > li:has(details[open]) {
+  flex-basis: 100%;
+}
+.experience-skills summary {
+  cursor: pointer;
+  padding: 10px 12px;
+  min-height: 44px;
+}
+.experience-skills summary::marker {
+  color: var(--accent);
+}
+.experience-skills summary:hover,
+.experience-skills details[open] > summary {
+  color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.06);
+}
+.experience-skills summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.skill-details {
+  border-top: 1px solid rgba(var(--accent-rgb), 0.18);
+  padding: 16px;
+}
+.skill-details p + p,
+.skill-details ul + p,
+.skill-details p + ul {
+  margin-top: 14px;
+}
+.skill-details ul {
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--fg-lo);
+}
+.experience-list .skill-hint {
+  margin-top: 14px;
+  font-size: 11px;
+}
+.skill-hint + .experience-skills {
+  margin-top: 8px;
+}
 .education-note {
   padding-top: 20px;
   border-top: 1px solid rgba(var(--accent-rgb), 0.2);
