@@ -1,10 +1,13 @@
 export const PROFILE = {
   name: "Nicholas King",
   role: "Site Reliability Engineer",
+  heroIdentity: "Nicholas King · Site Reliability Engineer & Developer",
+  heroStatement:
+    "Keeping enterprise systems reliable.\nBuilding automation that saves time.\nTurning ideas into working software.",
   badge: "VA-2008-NK",
   careerStartYear: 2008,
   summary:
-    "Site Reliability Engineer and Systems Administrator blending 15 years of keep-the-lights-on enterprise infrastructure with build-the-future software development. Specialized in large-scale hybrid-cloud Windows environments, massive toil reduction through automation, and modern SaaS products.",
+    "I build and maintain the systems people depend on. My work spans enterprise Windows infrastructure, automation that removes repetitive work, and software that solves practical problems.",
 } as const;
 
 export const SOCIAL_LINKS = {
@@ -14,7 +17,7 @@ export const SOCIAL_LINKS = {
 } as const;
 
 export const UPLINK = {
-  displayEmail: "contact@viralarchitect.com",
+  displayEmail: "viral.architect@gmail.com",
   deliverTo: "viral.architect@gmail.com",
 } as const;
 
@@ -33,20 +36,17 @@ export const SPEC_ROWS: SpecRow[] = [
   {
     k: "MISSION PROFILE",
     v: "SRE + SYSTEMS ADMIN + DEVELOPER",
-    sub:
-      "15 YRS ENTERPRISE OPS :: HYBRID-CLOUD WINDOWS :: TOIL REDUCTION AT SCALE",
+    sub: "15 YRS ENTERPRISE OPS :: HYBRID-CLOUD WINDOWS :: TOIL REDUCTION AT SCALE",
   },
   {
     k: "INFRA & CLOUD",
     v: "WINDOWS SERVER · ACTIVE DIRECTORY · AZURE ENTRA · VMWARE",
-    sub:
-      "FOREST MGMT (80+ DCs) · DNS · DEEP GPO OPTIMIZATION · HYBRID-CLOUD OPS",
+    sub: "FOREST MGMT (80+ DCs) · DNS · DEEP GPO OPTIMIZATION · HYBRID-CLOUD OPS",
   },
   {
     k: "AUTOMATION & OPS",
     v: "POWERSHELL · BIGFIX · ANSIBLE · WSUS · SRE",
-    sub:
-      "CUSTOM ANALYSES & DEPLOYMENTS · PATCH ORCHESTRATION · HEALTH CHECK AUTOMATION",
+    sub: "CUSTOM ANALYSES & DEPLOYMENTS · PATCH ORCHESTRATION · HEALTH CHECK AUTOMATION",
   },
   {
     k: "SOFTWARE DEV",
@@ -56,8 +56,7 @@ export const SPEC_ROWS: SpecRow[] = [
   {
     k: "AD FOREST HEALTH",
     v: "POWERSHELL FLEET SCANNER — 80+ DC FOREST",
-    sub:
-      "REPLICATION · SERVICE HEALTH · TIME DRIFT · SYSVOL INTEGRITY · DAILY REPORT IN 30 MIN",
+    sub: "REPLICATION · SERVICE HEALTH · TIME DRIFT · SYSVOL INTEGRITY · DAILY REPORT IN 30 MIN",
   },
   {
     k: "SERVER VALIDATION",
@@ -67,14 +66,12 @@ export const SPEC_ROWS: SpecRow[] = [
   {
     k: "GPO OPTIMIZATION",
     v: "NATIVE POWERSHELL SUITE — REDUNDANT LINK DETECTION",
-    sub:
-      "OU TREE ANALYSIS · DAILY GPO BACKUP · CROSS-DOMAIN STRING SEARCH",
+    sub: "OU TREE ANALYSIS · DAILY GPO BACKUP · CROSS-DOMAIN STRING SEARCH",
   },
   {
     k: "BIGFIX FLEET ANALYSIS",
     v: "CUSTOM ANALYSES — DRIVE METRICS & REGISTRY SCOPING",
-    sub:
-      "DISK UTILIZATION · PATCH COMPLIANCE · ENVIRONMENT-WIDE WORK ITEM TARGETING",
+    sub: "DISK UTILIZATION · PATCH COMPLIANCE · ENVIRONMENT-WIDE WORK ITEM TARGETING",
   },
   {
     k: "EDUCATION",
@@ -84,14 +81,12 @@ export const SPEC_ROWS: SpecRow[] = [
   {
     k: "CERTIFICATIONS",
     v: "SRE PRACTITIONER · AZURE FUNDAMENTALS · DESIGN THINKING",
-    sub:
-      "KYNDRYL SRE PRACTITIONER (MAY 2026) · MICROSOFT AZ-900 (DEC 2024) · IBM",
+    sub: "KYNDRYL SRE PRACTITIONER (MAY 2026) · MICROSOFT AZ-900 (DEC 2024) · IBM",
   },
   {
     k: "CURRENT DEPLOYMENT",
     v: "KYNDRYL — LEAD SYSTEMS ADMINISTRATOR (PUBLIC SECTOR)",
-    sub:
-      "1,200 WINDOWS SERVERS · HIPAA HEALTHCARE & FINANCIAL SERVICES · 24/7 DUTY CYCLE",
+    sub: "1,200 WINDOWS SERVERS · HIPAA HEALTHCARE & FINANCIAL SERVICES · 24/7 DUTY CYCLE",
   },
 ];
 
@@ -123,8 +118,7 @@ export const DEPLOYMENT_NODES: DeploymentNode[] = [
     dotClass: "green",
     img: "https://placehold.co/800x450/050705/00FF41/png?text=EQUIPQR+::+LIVE+FEED",
     imgAlt: "EquipQR fleet equipment and work order management platform",
-    desc:
-      "Multi-tenant SaaS for fleet equipment and work order management. MVP shipped in 90 days with React, TypeScript, and Supabase. Active pilots generating revenue.",
+    desc: "Multi-tenant SaaS for fleet equipment and work order management. MVP shipped in 90 days with React, TypeScript, and Supabase. Active pilots generating revenue.",
     highlights: [
       "Secure cross-org data sharing workflows",
       "CSV import/export for client onboarding",
@@ -144,8 +138,7 @@ export const DEPLOYMENT_NODES: DeploymentNode[] = [
     dotClass: "green",
     img: "https://placehold.co/800x450/050705/00E5FF/png?text=KYNDRYL+::+ENTERPRISE+OPS",
     imgAlt: "Kyndryl enterprise hybrid-cloud operations",
-    desc:
-      "Lead Systems Administrator for hybrid-cloud environments supporting thousands of Windows Servers across healthcare, financial, and industrial services.",
+    desc: "Lead Systems Administrator for hybrid-cloud environments supporting thousands of Windows Servers across healthcare, financial, and industrial services.",
     highlights: [
       "Sole Domain Administrator for major healthcare account (HIPAA-compliant)",
       "BigFix → Ansible migration",
@@ -168,8 +161,7 @@ export const DEPLOYMENT_NODES: DeploymentNode[] = [
     dotClass: "amber",
     img: "https://placehold.co/800x450/050705/FFB000/png?text=IBM+::+AUTOMATION+CORE",
     imgAlt: "IBM Windows Server administration and automation",
-    desc:
-      "Windows Server Administrator and Automation Specialist for regulated transportation and aerospace clients. Reduced manual ops by 60%+ through enterprise automation.",
+    desc: "Windows Server Administrator and Automation Specialist for regulated transportation and aerospace clients. Reduced manual ops by 60%+ through enterprise automation.",
     highlights: [
       "Server inventory collection at scale with Windows Batch scripts",
       "Automated patching with native-only batch scripts accross hundreds of Windows 2003 servers before EOL",
@@ -190,8 +182,7 @@ export const DEPLOYMENT_NODES: DeploymentNode[] = [
     dotClass: "cyan",
     img: "https://placehold.co/800x450/050705/00E5FF/png?text=WIU+::+FOUNDATION+LAYER",
     imgAlt: "Western Illinois University technical foundation",
-    desc:
-      "B.S. Network Technologies, Deskside support, hardware diagnostics, and repair for computer labs and enterprise equipment.",
+    desc: "B.S. Network Technologies, Deskside support, hardware diagnostics, and repair for computer labs and enterprise equipment.",
     highlights: [
       "Enterprise hardware diagnostics & repair",
       "Computer lab infrastructure support",
@@ -203,3 +194,52 @@ export const DEPLOYMENT_NODES: DeploymentNode[] = [
     tele: [18, 32, 41],
   },
 ];
+
+export const FEATURED_WORK = {
+  name: "EquipQR™",
+  category: "COLUMBIA CLOUDWORKS / SOFTWARE",
+  description: "Equipment and work order management built for the teams keeping fleets running.",
+  stack: "React · TypeScript · Supabase",
+  outcomes: [
+    {
+      title: "From idea to MVP in 90 days",
+      description: "Designed and shipped a multi-tenant SaaS product.",
+    },
+    {
+      title: "Built around real workflows",
+      description: "Secure cross-organization sharing and CSV imports for client onboarding.",
+    },
+    {
+      title: "Designed to keep shipping",
+      description: "Automated delivery with GitHub Actions and migration checks.",
+    },
+  ],
+} as const;
+export const SKILL_GROUPS = [
+  { title: "Infrastructure", tools: "Windows Server · Active Directory · Azure · VMware" },
+  { title: "Automation", tools: "PowerShell · Ansible · BigFix" },
+  { title: "Development", tools: "React · TypeScript · Node.js · PostgreSQL" },
+] as const;
+export const EXPERIENCE = [
+  {
+    company: "Kyndryl",
+    period: "2021 — PRESENT",
+    role: "Lead Systems Administrator",
+    description:
+      "Hybrid-cloud operations for regulated enterprise environments. Built forest health reporting across 80+ domain controllers and reduced per-server validation from 10+ minutes to seconds.",
+  },
+  {
+    company: "IBM",
+    period: "2011 — 2021",
+    role: "Windows Administration & Automation",
+    description:
+      "Enterprise server operations for transportation and aerospace clients. Reduced manual operations by 60%+ through automation, with fleet patching, reporting, and team mentorship.",
+  },
+  {
+    company: "Western Illinois University",
+    period: "2008 — 2011",
+    role: "Technical Assistant",
+    description:
+      "Computer lab support, enterprise hardware diagnostics, and repair—the foundation of my infrastructure career.",
+  },
+] as const;
