@@ -223,6 +223,107 @@ export const SKILL_GROUPS = [
 export const EXPERIENCE = [
   {
     company: "Kyndryl",
+    skills: [
+      {
+        name: "Active Directory Administration",
+        details: [
+          {
+            text: "Administered Active Directory environments supporting regulated enterprise infrastructure.",
+          },
+          {
+            text: "Designed and implemented Group Policy configurations affecting hundreds of systems and users, including security, operating-system, and application configuration requirements.",
+          },
+        ],
+      },
+      {
+        name: "Group Policy",
+        details: [
+          {
+            text: "Designed and deployed Group Policy configurations to make controlled configuration changes at scale across approximately 80 domain controllers and thousands of Windows servers.",
+          },
+          {
+            text: "Used centralized policy to standardize security, operating-system, and application settings across large enterprise environments.",
+          },
+        ],
+      },
+      {
+        name: "Domain Controllers",
+        details: [
+          {
+            text: "Administered Active Directory domain controller infrastructure across complex enterprise forests.",
+          },
+          {
+            text: "Transferred FSMO roles, managed Active Directory Sites and Services, assigned network subnets to sites, and promoted and demoted domain controllers during lifecycle and infrastructure changes.",
+          },
+        ],
+      },
+      {
+        name: "PowerShell",
+        details: [
+          {
+            text: "Used PowerShell extensively for Active Directory administration, migration, reporting, and compliance work.",
+          },
+          {
+            text: "Imported and exported user accounts at scale across Active Directory forests for a major healthcare client, collected AD object metadata for analysis, and moved users into and out of organizational units subject to regulatory access restrictions.",
+          },
+          {
+            text: "Designed a fully idempotent Active Directory health-check framework to validate server configuration against a formal contractual security specification containing more than 100 individual controls. Each control defined the required value, the agreed configuration state, and the criteria for compliance. The script evaluated every check consistently and produced repeatable compliance evidence in an environment where security restrictions prevented the use of Ansible.",
+          },
+        ],
+      },
+      {
+        name: "Windows Server 2022 - 2025",
+        details: [
+          {
+            text: "Supported modern Windows Server environments, including Windows Server 2022 and Windows Server 2025, within enterprise production infrastructure.",
+          },
+          {
+            text: "Performed administration across the server lifecycle, including configuration, patching, troubleshooting, security remediation, and operational validation.",
+          },
+        ],
+      },
+      {
+        name: "Ansible Automation Platform",
+        details: [
+          {
+            text: "Worked directly with Ansible playbook developers to troubleshoot Windows automation, diagnose failed executions, and resolve issues affecting configuration-data collection from managed servers.",
+          },
+          {
+            text: "Prepared Windows Server environments for centralized automation through Ansible Automation Platform, including WinRM configuration and credential-management requirements.",
+          },
+          {
+            text: "Configured Ansible projects and automation workflows to execute Windows playbooks for administration, validation, and HIPAA-related compliance reporting.",
+          },
+        ],
+      },
+      {
+        name: "Microsoft Azure",
+        details: [
+          {
+            text: "Earned the Microsoft Certified: Azure Fundamentals (AZ-900) certification in 2024 and applied Azure concepts within hybrid enterprise infrastructure environments.",
+          },
+        ],
+      },
+      {
+        name: "Microsoft Advanced Threat Protection (ATP)",
+        details: [
+          {
+            text: "Deployed and troubleshot Microsoft Defender for Identity sensors on Active Directory domain controllers, including configuration and connectivity issues affecting security telemetry.",
+          },
+        ],
+      },
+      {
+        name: "Microsoft Defender",
+        details: [
+          {
+            text: "Designed and deployed Group Policy configurations required to onboard and configure Windows Server systems for Microsoft Defender.",
+          },
+          {
+            text: "Used centralized policy to standardize security settings across managed Windows infrastructure.",
+          },
+        ],
+      },
+    ],
     period: "2021 — PRESENT",
     role: "Lead Systems Administrator",
     description:
@@ -230,6 +331,70 @@ export const EXPERIENCE = [
   },
   {
     company: "IBM",
+    skills: [
+      {
+        name: "Windows Server 2000 - 2019",
+        details: [
+          {
+            text: "Supported Microsoft Windows server platforms from Windows 2000 Server through Windows Server 2019 across the full infrastructure lifecycle, including provisioning, configuration, patching, troubleshooting, backup, recovery, and decommissioning.",
+          },
+        ],
+      },
+      {
+        name: "Tivoli Enterprise Management",
+        details: [
+          {
+            text: "Deployed, supported, and monitored infrastructure using multiple IBM Tivoli technologies, including:",
+          },
+          {
+            items: [
+              "Tivoli Enterprise Monitoring Agent (TEMA)",
+              "Tivoli Asset Discovery for Distributed (TAD4D)",
+              "Tivoli Access Manager for Enterprise Single Sign-On (TAM E-SSO)",
+            ],
+          },
+          {
+            text: "Used these platforms for infrastructure monitoring, software and asset discovery, and enterprise authentication support.",
+          },
+        ],
+      },
+      {
+        name: "Patch Management",
+        details: [
+          {
+            text: "Coordinated repeatable patching cycles with change management for an estate of more than 2,000 Windows servers on approximately 90-day maintenance schedules.",
+          },
+          {
+            text: "Developed Windows-native batch automation to reduce manual effort and make patch execution more consistent across a highly fragmented infrastructure environment.",
+          },
+        ],
+      },
+      {
+        name: "BigFix Subject Matter Expert",
+        details: [
+          {
+            text: "Helped lead the team's transition from manual server patching toward centralized automation with IBM BigFix.",
+          },
+          {
+            text: "Authored Fixlets and Analyses for patching, configuration validation, remediation, and environment reporting. Used BigFix to replace fragmented sources of operational information with repeatable queries and automated actions, improving infrastructure visibility and reducing troubleshooting time.",
+          },
+        ],
+      },
+      {
+        name: "ITIL Practices - Change / Incident / Problem Management",
+        details: [
+          {
+            text: "Worked within formal Change, Incident, and Problem Management processes while supporting multiple enterprise customers with contractual service-level requirements.",
+          },
+          {
+            text: "Coordinated production changes with technical teams and customer stakeholders, translating implementation details into understandable risk, impact, and rollback considerations.",
+          },
+          {
+            text: "Participated in root-cause analysis and documented lessons learned from Problem records so recurring failures and operational knowledge could be shared across the support team.",
+          },
+        ],
+      },
+    ],
     period: "2011 — 2021",
     role: "Windows Administration & Automation",
     description:
@@ -237,6 +402,32 @@ export const EXPERIENCE = [
   },
   {
     company: "Western Illinois University",
+    skills: [
+      {
+        name: "Computer Hardware",
+        details: [
+          {
+            text: "Diagnosed and repaired desktop PCs used by University faculty and staff through help-desk service tickets. Maintained service-level commitments with end users and coordinated with hardware vendors when replacement components or warranty service were required.",
+          },
+        ],
+      },
+      {
+        name: "Deskside Support",
+        details: [
+          {
+            text: "Provided face-to-face technical support in University computer labs, troubleshooting workstation hardware, software, and account-access issues. Also worked help-desk shifts documenting incidents and routing issues to the appropriate support teams.",
+          },
+        ],
+      },
+      {
+        name: "Identity Administration",
+        details: [
+          {
+            text: "Used Active Directory to create and maintain University staff accounts and manage access to computers and services. Fulfilled requests involving Active Directory group membership and local user and administrator groups.",
+          },
+        ],
+      },
+    ],
     period: "2008 — 2011",
     role: "Technical Assistant",
     description:
