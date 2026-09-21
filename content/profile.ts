@@ -1,13 +1,13 @@
 export const PROFILE = {
   name: "Nicholas King",
   role: "Site Reliability Engineer",
-  heroIdentity: "Nicholas King · Site Reliability Engineer & Developer",
+  heroIdentity: "Nicholas King",
   heroStatement:
-    "Keeping enterprise systems reliable.\nBuilding automation that saves time.\nTurning ideas into working software.",
+    "15+ years owning production reliability.\nOn-call incident response. Automation that removes toil.\nSoftware engineering backed by production ownership.",
   badge: "VA-2008-NK",
   careerStartYear: 2008,
   summary:
-    "I build and maintain the systems people depend on. My work spans enterprise Windows infrastructure, automation that removes repetitive work, and software that solves practical problems.",
+    "I am a Site Reliability Engineer / Production Infrastructure Engineer with 15+ years in enterprise operations. My deepest expertise is Windows infrastructure in regulated environments, backed by continuous on-call work, state-aware automation, and hands-on software engineering.",
 } as const;
 
 export const SOCIAL_LINKS = {
@@ -199,7 +199,7 @@ export const FEATURED_WORK = {
   name: "EquipQR™",
   category: "COLUMBIA CLOUDWORKS / SOFTWARE",
   description: "Equipment and work order management built for the teams keeping fleets running.",
-  stack: "React · TypeScript · Supabase",
+  stack: "React · TypeScript · Node.js · PostgreSQL · Supabase",
   outcomes: [
     {
       title: "From idea to MVP in 90 days",
@@ -211,7 +211,8 @@ export const FEATURED_WORK = {
     },
     {
       title: "Designed to keep shipping",
-      description: "Automated delivery with GitHub Actions and migration checks.",
+      description:
+        "Own multiple GitHub Actions pipelines, database migrations, and production deployment workflows. Diagnose complex pipeline failures and understand, modify, and operate CI/CD execution.",
     },
   ],
 } as const;
@@ -384,13 +385,13 @@ export const EXPERIENCE = [
         name: "ITIL Practices - Change / Incident / Problem Management",
         details: [
           {
-            text: "Worked within formal Change, Incident, and Problem Management processes while supporting multiple enterprise customers with contractual service-level requirements.",
+            text: "Used Change, Incident, and Problem Management to control production risk, plan rollback, restore service, and prevent repeat incidents across enterprise customer environments.",
           },
           {
             text: "Coordinated production changes with technical teams and customer stakeholders, translating implementation details into understandable risk, impact, and rollback considerations.",
           },
           {
-            text: "Participated in root-cause analysis and documented lessons learned from Problem records so recurring failures and operational knowledge could be shared across the support team.",
+            text: "Applied Five Whys in root-cause analysis, documented contributing factors, and tracked corrective actions with named owners and due dates. Kept RCA / Problem records open until all responsible parties completed and verified their actions, preserving lessons for the support team.",
           },
         ],
       },
@@ -434,3 +435,8 @@ export const EXPERIENCE = [
       "Computer lab support, enterprise hardware diagnostics, and repair—the foundation of my infrastructure career.",
   },
 ] as const;
+
+export const PRODUCT_LINKS = {
+  app: "https://equipqr.app",
+  status: "https://status.equipqr.app",
+} as const;

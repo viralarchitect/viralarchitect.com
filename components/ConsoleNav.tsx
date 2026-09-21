@@ -5,6 +5,7 @@ export function ConsoleNav() {
         VIRAL::ARCHITECT
       </a>
       <nav className="nav-links" aria-label="Section navigation">
+        <a href="#reliability">Reliability</a>
         <a href="#deployments">Work</a>
         <a href="#specs">About</a>
         <a href="#uplink">Contact</a>

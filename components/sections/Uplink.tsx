@@ -84,7 +84,7 @@ export function Uplink() {
         <h2 id="contact-heading">
           <span className="slash">{"//"}</span> CONTACT
         </h2>
-        <span className="meta">03 / CONNECT</span>
+        <span className="meta">05 / CONNECT</span>
       </div>
       <Panel className="uplink-panel">
         <div className="contact-layout">

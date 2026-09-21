@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Oswald } from "next/font/google";
 import { ConsoleProvider } from "@/components/ConsoleProvider";
 import "./globals.css";
+import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, indexingPolicy } from "@/lib/seo";
+import { PROFILE, SOCIAL_LINKS } from "@/content/profile";
 
 const fontMono = JetBrains_Mono({
   variable: "--font-mono",
@@ -16,18 +18,32 @@ const fontDisplay = Oswald({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://viralarchitect.com"),
-  title: "VIRAL ARCHITECT :: SYSTEM CONSOLE",
-  description:
-    "Viral Architect — personal console of Nicholas King, Site Reliability Engineer. 15 years of enterprise Windows infrastructure, automation at scale, and modern SaaS (EquipQR). Active deployments, system specs, secure uplink.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: SITE_URL + "/" },
+  robots: indexingPolicy(),
   openGraph: {
-    title: "VIRAL ARCHITECT :: SYSTEM CONSOLE",
-    description:
-      "Site Reliability Engineer blending enterprise hybrid-cloud ops, toil-killing automation, and SaaS product development.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL + "/",
+    siteName: "Viral Architect · Nicholas King",
     type: "website",
+    locale: "en_US",
     images: [
-      "https://placehold.co/1200x630/0b0c10/00FF41/png?text=VIRAL+ARCHITECT+::+SYSTEM+CONSOLE",
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Nicholas King — Site Reliability Engineer / Production Infrastructure Engineer",
+      },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/opengraph-image"],
   },
 };
 
@@ -43,6 +59,24 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fontMono.variable} ${fontDisplay.variable}`}>
       <body data-grid="on" data-scan="on">
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: PROFILE.name,
+              url: SITE_URL,
+              jobTitle: "Site Reliability Engineer / Production Infrastructure Engineer",
+              description: SITE_DESCRIPTION,
+              image: SITE_URL + "/Nicholas-King-Photo.jpg",
+              sameAs: Object.values(SOCIAL_LINKS),
+            }).replace(/</g, "\\u003c"),
+          }}
+        />
         <ConsoleProvider>{children}</ConsoleProvider>
       </body>
     </html>
