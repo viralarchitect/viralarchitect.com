@@ -2,15 +2,18 @@ export const PROFILE = {
   name: "Nicholas King",
   role: "Site Reliability Engineer",
   heroIdentity: "Nicholas King",
+  specialization:
+    "Specializing in production infrastructure, reliability automation, and regulated enterprise systems.",
   heroStatement:
     "15+ years owning production reliability.\nOn-call incident response. Automation that removes toil.\nSoftware engineering backed by production ownership.",
   badge: "VA-2008-NK",
   careerStartYear: 2008,
   summary:
-    "I am a Site Reliability Engineer / Production Infrastructure Engineer with 15+ years in enterprise operations. My deepest expertise is Windows infrastructure in regulated environments, backed by continuous on-call work, state-aware automation, and hands-on software engineering.",
+    "I am a Site Reliability Engineer with 15+ years in production operations. My work combines enterprise Windows infrastructure, reliability automation, regulated systems, and hands-on software engineering.",
 } as const;
 
 export const SOCIAL_LINKS = {
+  github: "https://github.com/viralarchitect",
   facebook: "https://www.facebook.com/profile.php?id=61578973284922",
   x: "https://x.com/viralarchitect",
   linkedin: "https://www.linkedin.com/in/nicholas-king-ccw/",
@@ -210,9 +213,9 @@ export const FEATURED_WORK = {
       description: "Secure cross-organization sharing and CSV imports for client onboarding.",
     },
     {
-      title: "Designed to keep shipping",
+      title: "Engineering through production ownership",
       description:
-        "Own multiple GitHub Actions pipelines, database migrations, and production deployment workflows. Diagnose complex pipeline failures and understand, modify, and operate CI/CD execution.",
+        "Own the path from design and code through multiple GitHub Actions pipelines, database migrations, and production deployment, including diagnosing pipeline failures. After release, monitor availability, respond to incidents, communicate with customers, and make reliability-led release decisions.",
     },
   ],
 } as const;
@@ -439,4 +442,5 @@ export const EXPERIENCE = [
 export const PRODUCT_LINKS = {
   app: "https://equipqr.app",
   status: "https://status.equipqr.app",
+  github: "https://github.com/Columbia-Cloudworks-LLC",
 } as const;
