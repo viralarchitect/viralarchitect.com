@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-export const alt = "Nicholas King — Site Reliability Engineer / Production Infrastructure Engineer";
+export const alt = "Nicholas King — Site Reliability Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export default async function Image() {
@@ -33,7 +33,9 @@ export default async function Image() {
         <div style={{ fontSize: 37, color: "#00bcff", marginTop: 16 }}>
           Site Reliability Engineer
         </div>
-        <div style={{ fontSize: 24, marginTop: 8 }}>Production Infrastructure Engineer</div>
+        <div style={{ fontSize: 24, marginTop: 8 }}>
+          Production infrastructure · Reliability automation
+        </div>
         <div
           style={{
             display: "flex",

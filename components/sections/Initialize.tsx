@@ -21,7 +21,8 @@ export function Initialize() {
         <div className="hero-copy">
           <p className="hero-tagline">{PROFILE.heroIdentity}</p>
           <p className="hero-role">
-            Site Reliability Engineer<span>Production Infrastructure Engineer</span>
+            {PROFILE.role}
+            <span>{PROFILE.specialization}</span>
           </p>
           <h1>
             <span>VIRAL</span>
@@ -51,6 +52,15 @@ export function Initialize() {
               aria-label="Nicholas King on LinkedIn"
             >
               LINKEDIN ↗
+            </a>
+            <a
+              className="hexline hero-social-link recruiter-link"
+              href={SOCIAL_LINKS.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Nicholas King on GitHub"
+            >
+              GITHUB ↗
             </a>
             <a
               className="hexline hero-social-link"

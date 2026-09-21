@@ -1,3 +1,4 @@
+import { verifyRobots } from "./verify-robots.mjs";
 import assert from "node:assert/strict";
 
 const base = process.argv[2] || "http://127.0.0.1:3001";
@@ -7,20 +8,16 @@ assert.equal(response.status, 200);
 const html = await response.text();
 assert.match(html, /Nicholas King \| Site Reliability Engineer/);
 assert.match(html, /<link rel="canonical" href="https:\/\/www\.viralarchitect\.com\/?"/);
-assert.match(
-  html,
-  production
-    ? /name="robots" content="index, follow"/
-    : /name="robots" content="noindex, nofollow"/,
-);
-if (production)
-  assert.doesNotMatch(response.headers.get("x-robots-tag") || "", /noindex|nofollow/i);
+verifyRobots(html, response.headers, production);
 assert.match(html, /name="twitter:card" content="summary_large_image"/);
 assert.match(html, /property="og:image"/);
 assert.doesNotMatch(html, /placehold\.co/);
 const person = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
 assert.equal(person["@type"], "Person");
 assert.equal(person.name, "Nicholas King");
+assert.equal(person.jobTitle, "Site Reliability Engineer");
+assert.match(html, /href="https:\/\/github.com\/viralarchitect"/);
+assert.match(html, /href="https:\/\/github.com\/Columbia-Cloudworks-LLC"/);
 assert.equal((html.match(/<summary/g) || []).length, 20);
 assert.match(html, /mailto:viral\.architect@gmail\.com/);
 assert.match(html, /monthly availability objective/);

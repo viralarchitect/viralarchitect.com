@@ -23,6 +23,14 @@ export function Deployments() {
               <a className="text-link" href={PRODUCT_LINKS.status}>
                 Public status ↗
               </a>
+              <a
+                className="text-link"
+                href={PRODUCT_LINKS.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Columbia Cloudworks on GitHub ↗
+              </a>
             </div>
           </div>
           <div className="project-outcomes">
