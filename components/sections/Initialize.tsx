@@ -20,6 +20,9 @@ export function Initialize() {
         </Panel>
         <div className="hero-copy">
           <p className="hero-tagline">{PROFILE.heroIdentity}</p>
+          <p className="hero-role">
+            Site Reliability Engineer<span>Production Infrastructure Engineer</span>
+          </p>
           <h1>
             <span>VIRAL</span>
             <br />
@@ -32,14 +35,23 @@ export function Initialize() {
             </span>
           </p>
           <div className="hero-actions">
-            <a className="primary-link" href="#deployments">
-              View my work ↓
+            <a className="primary-link" href="#reliability">
+              See reliability work ↓
             </a>
             <a className="text-link" href="#uplink">
               Contact me ↗
             </a>
           </div>
           <div className="hero-telemetry">
+            <a
+              className="hexline hero-social-link recruiter-link"
+              href={SOCIAL_LINKS.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Nicholas King on LinkedIn"
+            >
+              LINKEDIN ↗
+            </a>
             <a
               className="hexline hero-social-link"
               href={SOCIAL_LINKS.facebook}
@@ -57,15 +69,6 @@ export function Initialize() {
               aria-label="Viral Architect on X"
             >
               X :: <HexCode ticking={false} />
-            </a>
-            <a
-              className="hexline hero-social-link"
-              href={SOCIAL_LINKS.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Nicholas King on LinkedIn"
-            >
-              LINKEDIN ↗
             </a>
           </div>
         </div>

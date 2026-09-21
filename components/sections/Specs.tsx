@@ -7,7 +7,7 @@ export function Specs() {
         <h2 id="about-heading">
           <span className="slash">{"//"}</span> ABOUT & EXPERIENCE
         </h2>
-        <span className="meta">02 / BACKGROUND</span>
+        <span className="meta">04 / BACKGROUND</span>
       </div>
       <div className="about-layout">
         <div className="about-intro">
@@ -64,7 +64,7 @@ export function Specs() {
           <p className="education-note">
             B.S. Network Technologies · Western Illinois University
             <br />
-            SRE Practitioner · Microsoft Azure Fundamentals
+            Microsoft Certified: Azure Fundamentals (AZ-900) · Microsoft · 2024
           </p>
         </div>
       </div>
