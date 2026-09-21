@@ -1,3 +1,4 @@
+import { EquipQRModel } from "@/components/equipqr/EquipQRModel";
 import { Panel } from "@/components/Panel";
 import { FEATURED_WORK, PRODUCT_LINKS } from "@/content/profile";
 export function Deployments() {
@@ -16,6 +17,7 @@ export function Deployments() {
             <h3>{FEATURED_WORK.name}</h3>
             <p className="project-summary">{FEATURED_WORK.description}</p>
             <p className="project-stack">{FEATURED_WORK.stack}</p>
+            <EquipQRModel />
             <div className="project-links">
               <a className="text-link" href={PRODUCT_LINKS.app}>
                 Visit EquipQR ↗
