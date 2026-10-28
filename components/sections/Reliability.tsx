@@ -1,5 +1,5 @@
 import { Panel } from "@/components/Panel";
-import { RELIABILITY, MONITORING } from "@/content/reliability";
+import { RELIABILITY, MONITORING, DATA_PROTECTION } from "@/content/reliability";
 import { PRODUCT_LINKS } from "@/content/profile";
 export function Reliability() {
   return (
@@ -23,7 +23,11 @@ export function Reliability() {
             <p>{item.summary}</p>
             <details className="evidence-detail">
               <summary>How I operate</summary>
-              <p>{item.detail}</p>
+              <div className="evidence-detail-body">
+                {item.detail.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
             </details>
           </Panel>
         ))}
@@ -37,6 +41,19 @@ export function Reliability() {
         </div>
         <div className="monitoring-grid">
           {MONITORING.map((item) => (
+            <div key={item.title}>
+              <h4>{item.title}</h4>
+              <p>{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="monitoring-block">
+        <div className="monitoring-heading">
+          <h3>Data protection & recovery</h3>
+        </div>
+        <div className="monitoring-grid">
+          {DATA_PROTECTION.map((item) => (
             <div key={item.title}>
               <h4>{item.title}</h4>
               <p>{item.text}</p>

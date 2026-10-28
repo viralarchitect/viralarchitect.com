@@ -1,15 +1,15 @@
 export const PROFILE = {
   name: "Nicholas King",
-  role: "Site Reliability Engineer",
+  role: "Systems & Reliability Engineer",
   heroIdentity: "Nicholas King",
   specialization:
-    "Specializing in production infrastructure, reliability automation, and regulated enterprise systems.",
+    "Production infrastructure, reliability automation, and regulated enterprise systems.",
   heroStatement:
-    "15+ years owning production reliability.\nOn-call incident response. Automation that removes toil.\nSoftware engineering backed by production ownership.",
+    "15+ years of production operations and on-call incident response.\nAutomation that removes toil.\nSoftware engineering backed by production ownership.",
   badge: "VA-2008-NK",
   careerStartYear: 2008,
   summary:
-    "I am a Site Reliability Engineer with 15+ years in production operations. My work combines enterprise Windows infrastructure, reliability automation, regulated systems, and hands-on software engineering.",
+    "I am a systems engineer with 15+ years in production operations. At Kyndryl, my role is scoped to enterprise Windows infrastructure. Outside of that role, I build and operate EquipQR, a production SaaS product, applying the same reliability practices end to end: service level objectives, incident response, change control, and tested recovery.",
 } as const;
 
 export const SOCIAL_LINKS = {
@@ -202,6 +202,7 @@ export const FEATURED_WORK = {
   name: "EquipQR™",
   category: "COLUMBIA CLOUDWORKS / SOFTWARE",
   description: "Equipment and work order management built for the teams keeping fleets running.",
+  availability: "Free to use and actively maintained.",
   stack: "React · TypeScript · Node.js · PostgreSQL · Supabase",
   outcomes: [
     {
@@ -215,7 +216,12 @@ export const FEATURED_WORK = {
     {
       title: "Engineering through production ownership",
       description:
-        "Own the path from design and code through multiple GitHub Actions pipelines, database migrations, and production deployment, including diagnosing pipeline failures. After release, monitor availability, respond to incidents, communicate with customers, and make reliability-led release decisions.",
+        "I own the path from design through automated tests, preview deployments, database migrations, and production release across multiple GitHub Actions pipelines, including diagnosing pipeline failures. After release, I monitor availability, respond to incidents, and make reliability-led release decisions.",
+    },
+    {
+      title: "AI-assisted, engineered with guardrails",
+      description:
+        "Development is AI-assisted. Every change passes unit tests (Vitest), end-to-end tests (Playwright), automated pull request review, and a preview deployment before reaching production. A public changelog and releases page record what shipped and when.",
     },
   ],
 } as const;
@@ -223,6 +229,10 @@ export const SKILL_GROUPS = [
   { title: "Infrastructure", tools: "Windows Server · Active Directory · Azure · VMware" },
   { title: "Automation", tools: "PowerShell · Ansible · BigFix" },
   { title: "Development", tools: "React · TypeScript · Node.js · PostgreSQL" },
+  {
+    title: "Reliability",
+    tools: "SLOs & SLIs · Error budgets · Incident response · Blameless postmortems · Change management",
+  },
 ] as const;
 export const EXPERIENCE = [
   {
@@ -402,7 +412,7 @@ export const EXPERIENCE = [
     period: "2011 — 2021",
     role: "Windows Administration & Automation",
     description:
-      "Enterprise server operations for transportation and aerospace clients. Reduced manual operations by 60%+ through automation, with fleet patching, reporting, and team mentorship.",
+      "Enterprise server operations for transportation and aerospace clients. Helped lead the shift from manual patching to BigFix automation across an estate of 2,000+ Windows servers, with fleet reporting and team mentorship.",
   },
   {
     company: "Western Illinois University",

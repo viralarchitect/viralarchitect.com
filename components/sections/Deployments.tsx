@@ -16,6 +16,7 @@ export function Deployments() {
             <p className="eyebrow">{FEATURED_WORK.category}</p>
             <h3>{FEATURED_WORK.name}</h3>
             <p className="project-summary">{FEATURED_WORK.description}</p>
+            <p className="project-availability">{FEATURED_WORK.availability}</p>
             <p className="project-stack">{FEATURED_WORK.stack}</p>
             <EquipQRModel />
             <div className="project-links">

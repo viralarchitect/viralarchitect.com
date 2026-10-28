@@ -1,7 +1,6 @@
 import { ConsoleNav } from "@/components/ConsoleNav";
 import { ConsoleFooter } from "@/components/ConsoleFooter";
 import { Initialize } from "@/components/sections/Initialize";
-import { Hardware } from "@/components/sections/Hardware";
 import { Deployments } from "@/components/sections/Deployments";
 import { Specs } from "@/components/sections/Specs";
 import { Uplink } from "@/components/sections/Uplink";
@@ -20,7 +19,6 @@ export default function Home() {
         <Deployments />
         <Specs />
         <Uplink />
-        <Hardware />
       </main>
       <ConsoleFooter />
     </>
