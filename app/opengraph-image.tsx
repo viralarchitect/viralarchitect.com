@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-export const alt = "Nicholas King — Site Reliability Engineer";
+export const alt = "Nicholas King — Systems & Reliability Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export default async function Image() {
@@ -31,7 +31,7 @@ export default async function Image() {
         <div style={{ color: "#00bcff", fontSize: 20, letterSpacing: 3 }}>VIRAL::ARCHITECT</div>
         <div style={{ fontSize: 62, fontWeight: 700, marginTop: 24 }}>Nicholas King</div>
         <div style={{ fontSize: 37, color: "#00bcff", marginTop: 16 }}>
-          Site Reliability Engineer
+          Systems & Reliability Engineer
         </div>
         <div style={{ fontSize: 24, marginTop: 8 }}>
           Production infrastructure · Reliability automation

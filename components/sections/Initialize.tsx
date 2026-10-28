@@ -1,6 +1,5 @@
 import { EmblemLogo } from "@/components/EmblemLogo";
 import { Panel } from "@/components/Panel";
-import { HexCode } from "@/components/HexCode";
 import { TypedText } from "@/components/TypedText";
 import { PROFILE, SOCIAL_LINKS } from "@/content/profile";
 
@@ -10,13 +9,6 @@ export function Initialize() {
       <div className="hero-grid">
         <Panel className="emblem-wrap">
           <EmblemLogo />
-          <div className="emblem-caption">
-            <span>EMBLEM v1.0</span>
-            <span className="hexline">
-              <HexCode ticking={false} />
-            </span>
-            <span>1:1 LOCKED</span>
-          </div>
         </Panel>
         <div className="hero-copy">
           <p className="hero-tagline">{PROFILE.heroIdentity}</p>
@@ -63,22 +55,22 @@ export function Initialize() {
               GITHUB ↗
             </a>
             <a
-              className="hexline hero-social-link"
+              className="hexline hero-social-link recruiter-link"
               href={SOCIAL_LINKS.facebook}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Viral Architect on Facebook"
             >
-              FACEBOOK :: <HexCode ticking={false} />
+              FACEBOOK ↗
             </a>
             <a
-              className="hexline hero-social-link"
+              className="hexline hero-social-link recruiter-link"
               href={SOCIAL_LINKS.x}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Viral Architect on X"
             >
-              X :: <HexCode ticking={false} />
+              X ↗
             </a>
           </div>
         </div>

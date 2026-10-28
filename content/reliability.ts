@@ -1,12 +1,15 @@
 export const RELIABILITY = [
   {
     title: "Own the service level",
-    metric: "99.9%",
-    label: "monthly availability objective · EquipQR",
+    metric: "98%",
+    label: "availability SLO · EquipQR core workflows · rolling 28 days",
     summary:
-      "Operate a production SaaS service with public status monitoring, direct SMS outage alerts, and customer communication during significant interruptions.",
-    detail:
-      "Availability commitments are tied to customer-impacting normal business operations. When the agreed service level is missed because customer operations are affected, the customer receives a 10% service credit for that billing month. During significant interruptions, I update the customer stakeholder at least hourly or when significant new information becomes available.",
+      "Operate EquipQR, a production SaaS product, end to end: design, delivery, monitoring, recovery, and customer communication.",
+    detail: [
+      "EquipQR's SLO covers five core service indicators: authentication, scan-to-record, form submission and read-back, record writes, and equipment images. Platform outages count against the SLO because customers experience them as downtime. Managed-platform availability sets the ceiling, so the target is sized to what the dependency chain can support.",
+      "Optional integrations — QuickBooks, Google Maps, Google Workspace, and transactional email — are isolated from the core, so their failure degrades features without taking the app down.",
+      "Support runs outside business hours. Issues within my control are restored within four hours of 5 PM, and customers keep a documented paper workflow as a fallback during any outage.",
+    ],
   },
   {
     title: "Restore service. Close the loop.",
@@ -14,24 +17,26 @@ export const RELIABILITY = [
     label: "continuous enterprise on-call · IBM through Kyndryl",
     summary:
       "Responded through nights, weekends, and holidays; personally led critical-service restoration and followed major incidents through to verified corrective actions.",
-    detail:
-      "I have handled incidents caused by infrastructure failures and by my own changes. Root-cause analysis includes Five Whys, documented contributing factors, and corrective actions with named owners and due dates. RCA / Problem records remain open until actions from all responsible parties are completed and verified. The goal is to prevent recurrence and preserve operational knowledge.",
+    detail: [
+      "I have handled incidents caused by infrastructure failures and by my own changes. Postmortems are blameless and focus on contributing factors, using techniques such as Five Whys, with corrective actions assigned to named owners with due dates. Problem records stay open until every responsible party has completed and verified their actions, so fixes stick and lessons stay with the team.",
+    ],
   },
   {
     title: "Let reliability constrain releases",
     metric: "2 weeks",
-    label: "production change freeze after an EquipQR outage",
+    label: "production change freeze after a hosting-platform outage",
     summary:
-      "After a significant hosting-platform outage, I paused production changes to avoid adding risk while the incident was fully resolved and the next service period began from a stable baseline.",
-    detail:
-      "Service reliability directly informs release decisions. Change control includes risk assessment and rollback planning: production engineering must protect systems from unnecessary risk, including changes introduced by engineering teams themselves.",
+      "After a significant outage at EquipQR's hosting provider, I held all production changes until the platform had stabilized, so the next service period started from a known-good baseline.",
+    detail: [
+      "Reliability sets the pace of releases. Changes are deployed only in the customer's lowest-usage window, verified the following morning, and shipped with a rollback plan. When reliability is at risk, feature work waits.",
+    ],
   },
 ] as const;
 
 export const MONITORING = [
   {
     title: "Application and dependency health",
-    text: "EquipQR monitoring covers the application and its managed platform dependencies. Vercel or Supabase outages trigger direct notification; public status is available at status.equipqr.app.",
+    text: "Better Stack uptime monitoring covers EquipQR, with a public status page at status.equipqr.app. Alerts are reviewed after business hours, matching the published support window.",
   },
   {
     title: "Signals that distinguish failure modes",
@@ -40,6 +45,21 @@ export const MONITORING = [
   {
     title: "Diagnosis and capacity",
     text: "Correlate service and system logs; diagnose DNS, ports, firewalls, proxies, load balancers, TLS, and network paths. Apply historical utilization trends and forecasting concepts to anticipate capacity needs before resource exhaustion. Earlier troubleshooting also included packet captures.",
+  },
+] as const;
+
+export const DATA_PROTECTION = [
+  {
+    title: "Backups and tested restore",
+    text: "Daily database backups provide a 24-hour recovery point. The restore procedure has been carried out in production: scripts rebuild the full stack locally from backup data and re-import it once the platform is stable.",
+  },
+  {
+    title: "Recovery data handling",
+    text: "During a declared recovery, backup data may be restored to a local environment on a BitLocker-encrypted, TPM-backed device solely to rebuild and re-import it into production. The local copy is permanently deleted as soon as production is verified, and both the restore and the deletion are recorded in the incident notes.",
+  },
+  {
+    title: "Accepted risks",
+    text: "Hosting is single-provider, and equipment images are not independently backed up. Off-platform backups would require either paid replicated storage, which the current scale does not justify, or copies on personal devices, which I do not allow, because customer data must stay in audited, access-controlled systems. Both risks will be revisited as the customer base grows or a customer requires it.",
   },
 ] as const;
 
